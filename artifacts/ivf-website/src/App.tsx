@@ -34,10 +34,11 @@ function useIframeForm(iframeName: string) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // Let the form submit natively to the iframe; show success right away.
+    // Capture the form ref BEFORE the event is cleared by React's synthetic event system.
+    const form = e.currentTarget;
     setSuccess(true);
     setTimeout(() => {
-      (e.currentTarget as HTMLFormElement).reset();
+      form.reset();
     }, 100);
   };
 
@@ -914,6 +915,57 @@ function Footer() {
   );
 }
 
+/* ──────────────────── WhatsApp Popup Widget ──────────────────── */
+function WhatsAppPopup() {
+  const [visible, setVisible] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
+
+  useEffect(() => {
+    if (dismissed) return;
+    const t = setTimeout(() => setVisible(true), 4000);
+    return () => clearTimeout(t);
+  }, [dismissed]);
+
+  const close = () => { setVisible(false); setDismissed(true); };
+
+  return (
+    <>
+      {/* Popup card */}
+      <div className={`wa-popup ${visible ? "wa-popup-visible" : ""}`}>
+        <button className="wa-popup-close" onClick={close} aria-label="Close">✕</button>
+        <div className="wa-popup-header">
+          <div className="wa-popup-avatar">
+            <img src={doctorImg} alt="Dr. Shabina Khan" />
+            <span className="wa-popup-online" />
+          </div>
+          <div>
+            <div className="wa-popup-name">Dr. Shabina Khan</div>
+            <div className="wa-popup-role">IVF Specialist · Sunrice IVF Center</div>
+          </div>
+        </div>
+        <div className="wa-popup-bubble">
+          <p>👋 Hello! I'm Dr. Shabina Khan.</p>
+          <p>Have questions about <strong>IVF, IUI, or fertility treatment</strong>? I'm here to help. Chat with us directly on WhatsApp for a <strong>free consultation!</strong> 🌸</p>
+          <span className="wa-popup-time">Online now</span>
+        </div>
+        <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="wa-popup-btn" onClick={close}>
+          <i className="fab fa-whatsapp" /> Start Chat on WhatsApp
+        </a>
+      </div>
+
+      {/* Floating WhatsApp button */}
+      <button
+        className="float-whatsapp"
+        title="WhatsApp Consultation"
+        onClick={() => { if (dismissed || !visible) { setVisible(!visible); } else { close(); } }}
+        aria-label="WhatsApp"
+      >
+        <i className="fab fa-whatsapp" />
+      </button>
+    </>
+  );
+}
+
 /* ──────────────────── Floating Buttons ──────────────────── */
 function FloatingButtons() {
   const [showTop, setShowTop] = useState(false);
@@ -923,18 +975,13 @@ function FloatingButtons() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
   return (
-    <>
-      <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="float-whatsapp" title="WhatsApp Consultation">
-        <i className="fab fa-whatsapp" />
-      </a>
-      <button
-        className={`back-to-top ${showTop ? "visible" : ""}`}
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        aria-label="Back to top"
-      >
-        <i className="fas fa-arrow-up" />
-      </button>
-    </>
+    <button
+      className={`back-to-top ${showTop ? "visible" : ""}`}
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      aria-label="Back to top"
+    >
+      <i className="fas fa-arrow-up" />
+    </button>
   );
 }
 
@@ -973,6 +1020,7 @@ export default function App() {
       <Gallery />
       <Contact />
       <Footer />
+      <WhatsAppPopup />
       <FloatingButtons />
     </>
   );
