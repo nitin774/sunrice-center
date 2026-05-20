@@ -21,37 +21,45 @@ const UNSPLASH = {
   clinic3: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=700&q=80&auto=format&fit=crop",
   clinic4: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=700&q=80&auto=format&fit=crop",
   clinic5: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=700&q=80&auto=format&fit=crop",
-  about: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80&auto=format&fit=crop",
 };
 
 /* ─────────────────────────────────────────────────────────
-   Reusable hidden-iframe form hook
-   – posts to FormSubmit without navigating the React SPA
-   – shows success immediately after submit
+   AJAX form hook — POSTs to FormSubmit JSON endpoint.
+   First-ever submission triggers a one-time confirmation
+   email to nitinshrivastava191@gmail.com. Click the link
+   in that email once, then all future submissions deliver.
 ───────────────────────────────────────────────────────── */
-function useIframeForm(iframeName: string) {
-  const [success, setSuccess] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+function useAjaxForm(subject: string) {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // Capture the form ref BEFORE the event is cleared by React's synthetic event system.
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const form = e.currentTarget;
-    setSuccess(true);
-    setTimeout(() => {
-      form.reset();
-    }, 100);
+    setStatus("loading");
+
+    const data = new FormData(form);
+    const payload: Record<string, string> = { _subject: subject, _template: "table", _captcha: "false" };
+    data.forEach((v, k) => { payload[k] = v.toString(); });
+
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${EMAIL}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
+      if (json.success === "true" || json.success === true) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
 
-  const iframe = (
-    <iframe
-      ref={iframeRef}
-      name={iframeName}
-      title="form-target"
-      style={{ display: "none" }}
-    />
-  );
-
-  return { success, setSuccess, handleSubmit, iframe };
+  return { status, setStatus, handleSubmit };
 }
 
 /* ──────────────────── Loader ──────────────────── */
@@ -139,8 +147,8 @@ function Hero() {
       <div className="hero-bg-image" style={{ backgroundImage: `url(${UNSPLASH.hero})` }} />
       <div className="hero-overlay" />
       <div className="container pos-rel">
-        <div className="row align-items-center">
-          <div className="col-lg-7">
+        <div className="hero-inner">
+          <div className="hero-content">
             <div className="hero-badge fade-in">
               <i className="fas fa-award" /> ICMR Registered · Trusted Fertility Centre
             </div>
@@ -148,14 +156,14 @@ function Hero() {
               Welcome to <span>Sunrice IVF Center</span> Shahjahanpur
             </h1>
             <p className="hero-subtitle fade-in">
-              Advanced Fertility & IVF Care with Compassion — led by Dr. Shabina Khan, helping families achieve the dream of parenthood with world-class expertise.
+              Advanced Fertility &amp; IVF Care with Compassion — led by Dr. Shabina Khan, helping families achieve the dream of parenthood.
             </p>
             <div className="hero-btns fade-in">
               <a href="#appointment" className="btn-primary-custom">
                 <i className="fas fa-calendar-check" /> Book Appointment
               </a>
               <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="btn-whatsapp">
-                <i className="fab fa-whatsapp" /> WhatsApp Consultation
+                <i className="fab fa-whatsapp" /> WhatsApp Us
               </a>
             </div>
             <div className="hero-stats fade-in">
@@ -172,18 +180,91 @@ function Hero() {
               ))}
             </div>
           </div>
-          <div className="col-lg-5 d-none-mobile">
+          <div className="hero-doc-side">
             <div className="hero-doc-card fade-in-right">
               <img src={doctorImg} alt="Dr. Shabina Khan" className="hero-doc-img" />
               <div className="hero-doc-info">
                 <div className="hero-doc-name">Dr. Shabina Khan</div>
-                <div className="hero-doc-role">MBBS, MS · IVF & Fertility Specialist</div>
+                <div className="hero-doc-role">MBBS, MS · IVF &amp; Fertility Specialist</div>
                 <div className="hero-doc-status">
-                  <i className="fas fa-circle" style={{ fontSize: "0.45rem", marginRight: "0.3rem" }} /> Available for Consultation
+                  <span className="status-dot" /> Available for Consultation
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ──────────────────── Animated Counters ──────────────────── */
+function useCountUp(target: number, duration = 2000, active: boolean) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    let start = 0;
+    const step = Math.ceil(target / (duration / 16));
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { setCount(target); clearInterval(timer); }
+      else setCount(start);
+    }, 16);
+    return () => clearInterval(timer);
+  }, [active, target, duration]);
+  return count;
+}
+
+function Counters() {
+  const [active, setActive] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setActive(true); obs.disconnect(); } }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const stats = [
+    { target: 2000, suffix: "+", label: "Happy Families", icon: "fas fa-heart", color: "#db2777" },
+    { target: 98, suffix: "%", label: "IVF Success Rate", icon: "fas fa-chart-line", color: "#7c3aed" },
+    { target: 15, suffix: "+", label: "Years of Excellence", icon: "fas fa-award", color: "#2563eb" },
+    { target: 5000, suffix: "+", label: "Consultations Done", icon: "fas fa-user-md", color: "#059669" },
+    { target: 24, suffix: "/7", label: "Patient Support", icon: "fas fa-headset", color: "#d97706" },
+    { target: 100, suffix: "%", label: "Transparent Pricing", icon: "fas fa-shield-alt", color: "#dc2626" },
+  ];
+
+  const c0 = useCountUp(stats[0].target, 2000, active);
+  const c1 = useCountUp(stats[1].target, 1800, active);
+  const c2 = useCountUp(stats[2].target, 1500, active);
+  const c3 = useCountUp(stats[3].target, 2200, active);
+  const c4 = useCountUp(stats[4].target, 1200, active);
+  const c5 = useCountUp(stats[5].target, 1600, active);
+  const counts = [c0, c1, c2, c3, c4, c5];
+
+  return (
+    <section className="counters-section" ref={ref}>
+      <div className="counters-bg" />
+      <div className="container pos-rel">
+        <div className="text-center mb-5 fade-in">
+          <div className="section-badge section-badge-light"><i className="fas fa-star" /> Our Track Record</div>
+          <h2 className="section-title" style={{ color: "white" }}>Numbers That <span style={{ WebkitTextFillColor: "transparent", background: "linear-gradient(135deg,#fce7f3,#e879f9)", WebkitBackgroundClip: "text", backgroundClip: "text" }}>Speak for Themselves</span></h2>
+          <p className="section-desc" style={{ color: "rgba(255,255,255,0.8)" }}>Every number represents a life changed, a dream fulfilled, a family completed.</p>
+        </div>
+        <div className="counters-grid fade-in">
+          {stats.map((s, i) => (
+            <div key={s.label} className="counter-card">
+              <div className="counter-icon-wrap" style={{ background: `${s.color}22` }}>
+                <i className={s.icon} style={{ color: s.color }} />
+              </div>
+              <div className="counter-num">
+                {counts[i]}<span className="counter-suffix">{s.suffix}</span>
+              </div>
+              <div className="counter-label">{s.label}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -195,8 +276,8 @@ function About() {
   return (
     <section id="about" className="about-section">
       <div className="container">
-        <div className="row align-items-center g-5">
-          <div className="col-lg-5 fade-in-left">
+        <div className="two-col-grid">
+          <div className="fade-in-left">
             <div className="about-img-wrapper">
               <img src={reviewsImg} alt="Dr. Shabina Khan consulting a patient" className="about-main-img" />
               <div className="about-img-badge">
@@ -208,24 +289,22 @@ function About() {
               </div>
             </div>
           </div>
-          <div className="col-lg-7 fade-in-right">
+          <div className="fade-in-right">
             <div className="section-badge"><i className="fas fa-heart" /> About Sunrice IVF</div>
             <h2 className="section-title">Turning Dreams into <span>Reality</span></h2>
             <p className="body-text mb-4">
               Sunrice IVF Center is Shahjahanpur's premier fertility clinic, committed to helping couples overcome infertility through advanced, compassionate care. Under the expert guidance of Dr. Shabina Khan, we blend cutting-edge reproductive technology with heartfelt support.
             </p>
-            <div className="row g-3 mb-4">
+            <div className="mini-cards-grid mb-4">
               {[
                 { icon: "🏥", title: "Our Mission", desc: "Compassionate, world-class fertility care accessible to every family." },
                 { icon: "🌟", title: "Why Choose Us", desc: "State-of-the-art IVF lab, personalised plans, transparent pricing." },
                 { icon: "💖", title: "Our Vision", desc: "Most trusted fertility centre in UP — internationally benchmarked." },
               ].map((c) => (
-                <div key={c.title} className="col-sm-4">
-                  <div className="about-mini-card">
-                    <div style={{ fontSize: "1.75rem", marginBottom: "0.5rem" }}>{c.icon}</div>
-                    <div style={{ fontWeight: 700, fontSize: "0.875rem", color: "#1f2937", marginBottom: "0.3rem" }}>{c.title}</div>
-                    <div style={{ fontSize: "0.775rem", color: "#6b7280", lineHeight: 1.5 }}>{c.desc}</div>
-                  </div>
+                <div key={c.title} className="about-mini-card">
+                  <div style={{ fontSize: "1.75rem", marginBottom: "0.5rem" }}>{c.icon}</div>
+                  <div style={{ fontWeight: 700, fontSize: "0.875rem", color: "#1f2937", marginBottom: "0.3rem" }}>{c.title}</div>
+                  <div style={{ fontSize: "0.775rem", color: "#6b7280", lineHeight: 1.5 }}>{c.desc}</div>
                 </div>
               ))}
             </div>
@@ -243,8 +322,8 @@ function About() {
           </div>
         </div>
 
-        <div className="row g-3 mt-5 fade-in">
-          <div className="col-12 text-center mb-3">
+        <div className="timings-grid mt-5 fade-in">
+          <div style={{ gridColumn: "1/-1", textAlign: "center", marginBottom: "1.5rem" }}>
             <div className="section-badge"><i className="fas fa-clock" /> Clinic Timings</div>
             <h3 className="section-title" style={{ fontSize: "1.75rem" }}>When We <span>Are Open</span></h3>
           </div>
@@ -254,12 +333,10 @@ function About() {
             { day: "Sunday", time: "10:00 AM – 2:00 PM", icon: "🗓️" },
             { day: "Emergency", time: "24 Hours Available", icon: "🚨" },
           ].map((t) => (
-            <div key={t.day} className="col-6 col-md-3">
-              <div className="timing-card text-center">
-                <div style={{ fontSize: "1.75rem", marginBottom: "0.4rem" }}>{t.icon}</div>
-                <div style={{ fontWeight: 700, fontSize: "0.875rem", color: "#1f2937" }}>{t.day}</div>
-                <div style={{ fontSize: "0.8rem", color: "#db2777", fontWeight: 600, marginTop: "0.2rem" }}>{t.time}</div>
-              </div>
+            <div key={t.day} className="timing-card text-center">
+              <div style={{ fontSize: "1.75rem", marginBottom: "0.4rem" }}>{t.icon}</div>
+              <div style={{ fontWeight: 700, fontSize: "0.875rem", color: "#1f2937" }}>{t.day}</div>
+              <div style={{ fontSize: "0.8rem", color: "#db2777", fontWeight: 600, marginTop: "0.2rem" }}>{t.time}</div>
             </div>
           ))}
         </div>
@@ -278,8 +355,8 @@ function Doctor() {
           <h2 className="section-title">Meet <span>Dr. Shabina Khan</span></h2>
           <p className="section-desc">A compassionate fertility specialist with 15+ years of experience in reproductive medicine and IVF.</p>
         </div>
-        <div className="row g-5 align-items-center">
-          <div className="col-lg-5 fade-in-left">
+        <div className="two-col-grid">
+          <div className="fade-in-left">
             <div className="doctor-photo-card">
               <img src={doctorImg} alt="Dr. Shabina Khan – IVF Specialist" className="doctor-real-img" />
               <div className="doctor-photo-badge">
@@ -291,11 +368,11 @@ function Doctor() {
               </div>
               <div className="doctor-name-overlay">
                 <div style={{ fontFamily: "var(--font-heading)", fontSize: "1.15rem", fontWeight: 700, color: "white" }}>Dr. Shabina Khan</div>
-                <div style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.85)" }}>MBBS, MS · IVF & Infertility Specialist</div>
+                <div style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.85)" }}>MBBS, MS · IVF &amp; Infertility Specialist</div>
               </div>
             </div>
           </div>
-          <div className="col-lg-7 fade-in-right">
+          <div className="fade-in-right">
             <div className="section-badge"><i className="fas fa-star" /> Credentials</div>
             <h3 className="section-title" style={{ fontSize: "1.75rem" }}>15+ Years of <span>Excellence</span></h3>
             <p className="body-text mb-4">
@@ -317,7 +394,7 @@ function Doctor() {
                 </div>
               </div>
             ))}
-            <div className="flex-wrap-gap mt-4">
+            <div className="btn-row mt-4">
               <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="btn-whatsapp">
                 <i className="fab fa-whatsapp" /> WhatsApp Consultation
               </a>
@@ -350,21 +427,19 @@ function Services() {
           <h2 className="section-title">Comprehensive <span>Fertility Services</span></h2>
           <p className="section-desc">World-class treatments tailored to your unique needs — all under one compassionate roof.</p>
         </div>
-        <div className="row g-4">
+        <div className="services-grid">
           {services.map((s) => (
-            <div key={s.title} className="col-md-6 col-lg-4 fade-in">
-              <div className="service-card">
-                <div className="service-img-wrap">
-                  <img src={s.img} alt={s.title} className="service-img" loading="lazy" />
-                  <div className="service-img-icon">{s.icon}</div>
-                </div>
-                <div className="service-body">
-                  <h3 className="service-title">{s.title}</h3>
-                  <p className="service-desc-text">{s.desc}</p>
-                  <a href="#appointment" className="service-link">
-                    Book Consultation <i className="fas fa-arrow-right" />
-                  </a>
-                </div>
+            <div key={s.title} className="service-card fade-in">
+              <div className="service-img-wrap">
+                <img src={s.img} alt={s.title} className="service-img" loading="lazy" />
+                <div className="service-img-icon">{s.icon}</div>
+              </div>
+              <div className="service-body">
+                <h3 className="service-title">{s.title}</h3>
+                <p className="service-desc-text">{s.desc}</p>
+                <a href="#appointment" className="service-link">
+                  Book Consultation <i className="fas fa-arrow-right" />
+                </a>
               </div>
             </div>
           ))}
@@ -374,13 +449,43 @@ function Services() {
   );
 }
 
+/* ──────────────────── Form status helpers ──────────────────── */
+function FormSuccess({ msg, onClose }: { msg: string; onClose: () => void }) {
+  return (
+    <div className="form-status success-banner">
+      <i className="fas fa-check-circle" style={{ fontSize: "1.4rem", color: "#059669", flexShrink: 0 }} />
+      <div style={{ flex: 1 }}>
+        <div style={{ fontWeight: 700, color: "#065f46" }}>Sent Successfully!</div>
+        <div style={{ fontSize: "0.83rem", color: "#047857", marginTop: "0.2rem" }}>{msg}</div>
+      </div>
+      <button className="status-close" onClick={onClose}>✕</button>
+    </div>
+  );
+}
+function FormError({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="form-status error-banner">
+      <i className="fas fa-exclamation-circle" style={{ fontSize: "1.4rem", color: "#dc2626", flexShrink: 0 }} />
+      <div style={{ flex: 1 }}>
+        <div style={{ fontWeight: 700, color: "#7f1d1d" }}>Couldn't send right now</div>
+        <div style={{ fontSize: "0.83rem", color: "#991b1b", marginTop: "0.2rem" }}>
+          Please try again, or{" "}
+          <a href={WA_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#25d366", fontWeight: 700 }}>
+            <i className="fab fa-whatsapp" /> WhatsApp us directly
+          </a>.
+        </div>
+      </div>
+      <button className="status-close" onClick={onClose}>✕</button>
+    </div>
+  );
+}
+
 /* ──────────────────── Appointment Form ──────────────────── */
 function Appointment() {
-  const { success, setSuccess, handleSubmit, iframe } = useIframeForm("iframe_appt");
+  const { status, setStatus, handleSubmit } = useAjaxForm("New Appointment – Sunrice IVF Center Shahjahanpur");
 
   return (
     <section id="appointment" className="appointment-section">
-      {iframe}
       <div className="container">
         <div className="text-center mb-5 fade-in">
           <div className="section-badge"><i className="fas fa-calendar-check" /> Book Now</div>
@@ -388,74 +493,54 @@ function Appointment() {
           <p className="section-desc">Fill in your details and we'll confirm your appointment within 24 hours.</p>
         </div>
 
-        {success && (
-          <div className="success-banner fade-in">
-            <i className="fas fa-check-circle" style={{ fontSize: "1.5rem", color: "#059669" }} />
-            <div>
-              <div style={{ fontWeight: 700, color: "#065f46" }}>Appointment Request Sent!</div>
-              <div style={{ fontSize: "0.85rem", color: "#047857" }}>We'll contact you within 24 hours to confirm. You can also WhatsApp us for faster response.</div>
-            </div>
-            <button className="success-close" onClick={() => setSuccess(false)}>✕</button>
-          </div>
-        )}
-
-        <div className="row g-4 align-items-stretch">
-          <div className="col-lg-4 fade-in-left">
-            <div className="appt-info-panel">
-              <img src={clinicalImg} alt="Dr. Shabina Khan clinical session" className="appt-info-img" />
-              <h4 className="appt-info-heading">Why Book With Us?</h4>
-              {[
-                "Free initial fertility consultation",
-                "Expert guidance from Dr. Shabina Khan",
-                "Transparent treatment costs",
-                "Flexible appointment timings",
-                "Warm, supportive environment",
-              ].map((item) => (
-                <div key={item} className="check-row">
-                  <i className="fas fa-check-circle" style={{ color: "#db2777" }} />
-                  <span style={{ fontSize: "0.875rem", color: "#374151" }}>{item}</span>
-                </div>
-              ))}
-              <div className="call-box mt-3">
-                <div style={{ fontSize: "0.8rem", color: "#db2777", fontWeight: 700 }}>
-                  <i className="fas fa-phone me-1" /> Call us directly
-                </div>
-                <a href={`tel:${PHONE}`} className="call-number">{PHONE}</a>
+        <div className="appt-grid">
+          <div className="appt-info-panel fade-in-left">
+            <img src={clinicalImg} alt="Dr. Shabina Khan clinical session" className="appt-info-img" />
+            <h4 className="appt-info-heading">Why Book With Us?</h4>
+            {[
+              "Free initial fertility consultation",
+              "Expert guidance from Dr. Shabina Khan",
+              "Transparent treatment costs",
+              "Flexible appointment timings",
+              "Warm, supportive environment",
+            ].map((item) => (
+              <div key={item} className="check-row">
+                <i className="fas fa-check-circle" style={{ color: "#db2777" }} />
+                <span style={{ fontSize: "0.875rem", color: "#374151" }}>{item}</span>
               </div>
+            ))}
+            <div className="call-box mt-3">
+              <div style={{ fontSize: "0.8rem", color: "#db2777", fontWeight: 700 }}>
+                <i className="fas fa-phone me-1" /> Call us directly
+              </div>
+              <a href={`tel:${PHONE}`} className="call-number">{PHONE}</a>
             </div>
           </div>
 
-          <div className="col-lg-8 fade-in-right">
+          <div className="fade-in-right">
+            {status === "success" && <FormSuccess msg="We'll contact you within 24 hours to confirm your appointment." onClose={() => setStatus("idle")} />}
+            {status === "error" && <FormError onClose={() => setStatus("idle")} />}
             <div className="form-card">
-              <form
-                action={`https://formsubmit.co/${EMAIL}`}
-                method="POST"
-                target="iframe_appt"
-                onSubmit={handleSubmit}
-              >
-                <input type="hidden" name="_subject" value="New Appointment – Sunrice IVF Center Shahjahanpur" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_template" value="table" />
-
+              <form onSubmit={handleSubmit}>
                 <div className="form-grid">
                   <div className="form-group">
-                    <label className="form-label-custom"><i className="fas fa-user me-1" style={{ color: "#db2777" }} /> Full Name *</label>
+                    <label className="form-label-custom"><i className="fas fa-user me-1 pink" /> Full Name *</label>
                     <input name="Full Name" type="text" className="form-control-custom" placeholder="Your full name" required />
                   </div>
                   <div className="form-group">
-                    <label className="form-label-custom"><i className="fas fa-phone me-1" style={{ color: "#db2777" }} /> Phone Number *</label>
+                    <label className="form-label-custom"><i className="fas fa-phone me-1 pink" /> Phone Number *</label>
                     <input name="Phone Number" type="tel" className="form-control-custom" placeholder="+91 XXXXX XXXXX" required />
                   </div>
                   <div className="form-group">
-                    <label className="form-label-custom"><i className="fas fa-envelope me-1" style={{ color: "#db2777" }} /> Email</label>
+                    <label className="form-label-custom"><i className="fas fa-envelope me-1 pink" /> Email</label>
                     <input name="Email" type="email" className="form-control-custom" placeholder="your@email.com" />
                   </div>
                   <div className="form-group">
-                    <label className="form-label-custom"><i className="fas fa-calendar me-1" style={{ color: "#db2777" }} /> Preferred Date *</label>
+                    <label className="form-label-custom"><i className="fas fa-calendar me-1 pink" /> Preferred Date *</label>
                     <input name="Preferred Date" type="date" className="form-control-custom" required />
                   </div>
                   <div className="form-group">
-                    <label className="form-label-custom"><i className="fas fa-stethoscope me-1" style={{ color: "#db2777" }} /> Service Needed</label>
+                    <label className="form-label-custom"><i className="fas fa-stethoscope me-1 pink" /> Service Needed</label>
                     <select name="Service" className="form-control-custom">
                       <option value="">Select a service</option>
                       <option>IVF Treatment</option>
@@ -468,7 +553,7 @@ function Appointment() {
                     </select>
                   </div>
                   <div className="form-group">
-                    <label className="form-label-custom"><i className="fas fa-clock me-1" style={{ color: "#db2777" }} /> Preferred Time</label>
+                    <label className="form-label-custom"><i className="fas fa-clock me-1 pink" /> Preferred Time</label>
                     <select name="Preferred Time" className="form-control-custom">
                       <option value="">Select a time</option>
                       <option>Morning (8AM – 12PM)</option>
@@ -477,16 +562,14 @@ function Appointment() {
                     </select>
                   </div>
                   <div className="form-group form-full">
-                    <label className="form-label-custom"><i className="fas fa-comment me-1" style={{ color: "#db2777" }} /> Message / Concern</label>
-                    <textarea name="Message" className="form-control-custom" rows={3} placeholder="Briefly describe your concern or query..." style={{ resize: "vertical" }} />
+                    <label className="form-label-custom"><i className="fas fa-comment me-1 pink" /> Message / Concern</label>
+                    <textarea name="Message" className="form-control-custom" rows={3} placeholder="Briefly describe your concern..." style={{ resize: "vertical" }} />
                   </div>
                   <div className="form-group form-full">
-                    <button type="submit" className="btn-primary-custom btn-full">
-                      <i className="fas fa-paper-plane me-1" /> Submit Appointment Request
+                    <button type="submit" className="btn-primary-custom btn-full" disabled={status === "loading"}>
+                      {status === "loading" ? <><i className="fas fa-spinner fa-spin me-1" /> Sending…</> : <><i className="fas fa-paper-plane me-1" /> Submit Appointment Request</>}
                     </button>
-                    <p className="form-note">
-                      <i className="fas fa-lock me-1" /> Your information is private and secure. We'll contact you within 24 hours.
-                    </p>
+                    <p className="form-note"><i className="fas fa-lock me-1" /> Your information is private and secure.</p>
                   </div>
                 </div>
               </form>
@@ -516,18 +599,16 @@ function Testimonials() {
           <h2 className="section-title">Families We've <span>Helped</span></h2>
           <p className="section-desc">Real stories of hope, perseverance, and the joy of parenthood from our beloved patients.</p>
         </div>
-        <div className="row g-4 mb-5">
+        <div className="services-grid mb-5">
           {reviews.map((r) => (
-            <div key={r.name} className="col-md-6 col-lg-4 fade-in">
-              <div className="testimonial-card">
-                <div className="stars">{"★".repeat(r.rating)}</div>
-                <p className="testimonial-text">"{r.text}"</p>
-                <div className="testimonial-author">
-                  <div className="author-avatar">{r.avatar}</div>
-                  <div>
-                    <div className="author-name">{r.name}</div>
-                    <div className="author-loc"><i className="fas fa-map-marker-alt me-1" />{r.loc}</div>
-                  </div>
+            <div key={r.name} className="testimonial-card fade-in">
+              <div className="stars">{"★".repeat(r.rating)}</div>
+              <p className="testimonial-text">"{r.text}"</p>
+              <div className="testimonial-author">
+                <div className="author-avatar">{r.avatar}</div>
+                <div>
+                  <div className="author-name">{r.name}</div>
+                  <div className="author-loc"><i className="fas fa-map-marker-alt me-1" />{r.loc}</div>
                 </div>
               </div>
             </div>
@@ -550,88 +631,66 @@ function Testimonials() {
 
 /* ──────────────────── Patient Review Submission ──────────────────── */
 function LeaveReview() {
-  const { success, setSuccess, handleSubmit, iframe } = useIframeForm("iframe_review");
+  const { status, setStatus, handleSubmit } = useAjaxForm("New Patient Review – Sunrice IVF Center");
 
   return (
     <section id="leave-review" className="leave-review-section">
-      {iframe}
       <div className="container">
         <div className="text-center mb-5 fade-in">
           <div className="section-badge"><i className="fas fa-star" /> Share Your Story</div>
           <h2 className="section-title">Leave a <span>Patient Review</span></h2>
           <p className="section-desc">Your experience matters — share your journey and help other families find hope.</p>
         </div>
-        <div className="row justify-content-center">
-          <div className="col-lg-8 fade-in">
-            {success && (
-              <div className="success-banner" style={{ marginBottom: "1.5rem" }}>
-                <i className="fas fa-heart" style={{ fontSize: "1.5rem", color: "#db2777" }} />
-                <div>
-                  <div style={{ fontWeight: 700, color: "#065f46" }}>Thank you for sharing your story! 🌸</div>
-                  <div style={{ fontSize: "0.85rem", color: "#047857" }}>Your review has been submitted and we'll share it on our website soon.</div>
+        <div className="review-form-wrap fade-in">
+          {status === "success" && <FormSuccess msg="Thank you for sharing your story! We'll publish your review after verification. 🌸" onClose={() => setStatus("idle")} />}
+          {status === "error" && <FormError onClose={() => setStatus("idle")} />}
+          <div className="form-card">
+            <form onSubmit={handleSubmit}>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label className="form-label-custom"><i className="fas fa-user me-1 pink" /> Your Name *</label>
+                  <input name="Patient Name" type="text" className="form-control-custom" placeholder="Your full name" required />
                 </div>
-                <button className="success-close" onClick={() => setSuccess(false)}>✕</button>
+                <div className="form-group">
+                  <label className="form-label-custom"><i className="fas fa-map-marker-alt me-1 pink" /> City / Location *</label>
+                  <input name="City" type="text" className="form-control-custom" placeholder="e.g. Shahjahanpur" required />
+                </div>
+                <div className="form-group">
+                  <label className="form-label-custom"><i className="fas fa-stethoscope me-1 pink" /> Treatment Received</label>
+                  <select name="Treatment" className="form-control-custom">
+                    <option value="">Select treatment</option>
+                    <option>IVF Treatment</option>
+                    <option>IUI Treatment</option>
+                    <option>Fertility Consultation</option>
+                    <option>Pregnancy Care</option>
+                    <option>Infertility Diagnosis</option>
+                    <option>Women Health Care</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label className="form-label-custom"><i className="fas fa-star me-1 pink" /> Your Rating *</label>
+                  <select name="Rating" className="form-control-custom" required>
+                    <option value="">Select rating</option>
+                    <option>⭐⭐⭐⭐⭐ (5 – Excellent)</option>
+                    <option>⭐⭐⭐⭐ (4 – Very Good)</option>
+                    <option>⭐⭐⭐ (3 – Good)</option>
+                    <option>⭐⭐ (2 – Fair)</option>
+                    <option>⭐ (1 – Poor)</option>
+                  </select>
+                </div>
+                <div className="form-group form-full">
+                  <label className="form-label-custom"><i className="fas fa-comment-dots me-1 pink" /> Your Story / Review *</label>
+                  <textarea name="Review" className="form-control-custom" rows={4} placeholder="Share your experience — how did Sunrice IVF Center help you?" style={{ resize: "vertical" }} required />
+                </div>
+                <div className="form-group form-full">
+                  <button type="submit" className="btn-primary-custom btn-full" disabled={status === "loading"}>
+                    {status === "loading" ? <><i className="fas fa-spinner fa-spin me-1" /> Sending…</> : <><i className="fas fa-heart me-1" /> Submit My Review</>}
+                  </button>
+                  <p className="form-note"><i className="fas fa-shield-alt me-1" /> Your review will be verified before being published.</p>
+                </div>
               </div>
-            )}
-            <div className="form-card">
-              <form
-                action={`https://formsubmit.co/${EMAIL}`}
-                method="POST"
-                target="iframe_review"
-                onSubmit={handleSubmit}
-              >
-                <input type="hidden" name="_subject" value="New Patient Review – Sunrice IVF Center" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_template" value="table" />
-
-                <div className="form-grid">
-                  <div className="form-group">
-                    <label className="form-label-custom"><i className="fas fa-user me-1" style={{ color: "#db2777" }} /> Your Name *</label>
-                    <input name="Patient Name" type="text" className="form-control-custom" placeholder="Your full name" required />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label-custom"><i className="fas fa-map-marker-alt me-1" style={{ color: "#db2777" }} /> City / Location *</label>
-                    <input name="City" type="text" className="form-control-custom" placeholder="e.g. Shahjahanpur" required />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label-custom"><i className="fas fa-stethoscope me-1" style={{ color: "#db2777" }} /> Treatment Received</label>
-                    <select name="Treatment" className="form-control-custom">
-                      <option value="">Select treatment</option>
-                      <option>IVF Treatment</option>
-                      <option>IUI Treatment</option>
-                      <option>Fertility Consultation</option>
-                      <option>Pregnancy Care</option>
-                      <option>Infertility Diagnosis</option>
-                      <option>Women Health Care</option>
-                      <option>Other</option>
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label-custom"><i className="fas fa-star me-1" style={{ color: "#db2777" }} /> Your Rating *</label>
-                    <select name="Rating" className="form-control-custom" required>
-                      <option value="">Select rating</option>
-                      <option>⭐⭐⭐⭐⭐ (5 – Excellent)</option>
-                      <option>⭐⭐⭐⭐ (4 – Very Good)</option>
-                      <option>⭐⭐⭐ (3 – Good)</option>
-                      <option>⭐⭐ (2 – Fair)</option>
-                      <option>⭐ (1 – Poor)</option>
-                    </select>
-                  </div>
-                  <div className="form-group form-full">
-                    <label className="form-label-custom"><i className="fas fa-comment-dots me-1" style={{ color: "#db2777" }} /> Your Story / Review *</label>
-                    <textarea name="Review" className="form-control-custom" rows={5} placeholder="Share your experience — how did Sunrice IVF Center help you? What was your journey like?" style={{ resize: "vertical" }} required />
-                  </div>
-                  <div className="form-group form-full">
-                    <button type="submit" className="btn-primary-custom btn-full">
-                      <i className="fas fa-heart me-1" /> Submit My Review
-                    </button>
-                    <p className="form-note">
-                      <i className="fas fa-shield-alt me-1" /> Your review will be verified before being published on this website.
-                    </p>
-                  </div>
-                </div>
-              </form>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -660,18 +719,16 @@ function FAQ() {
           <h2 className="section-title">Common <span>Questions</span></h2>
           <p className="section-desc">Everything you need to know about fertility treatments and our clinic.</p>
         </div>
-        <div className="row justify-content-center">
-          <div className="col-lg-9 fade-in">
-            {faqs.map((f, i) => (
-              <div key={i} className="faq-item">
-                <button className="faq-question" onClick={() => setOpen(open === i ? null : i)}>
-                  <span>{f.q}</span>
-                  <i className={`faq-icon fas fa-chevron-${open === i ? "up" : "down"}`} />
-                </button>
-                <div className={`faq-answer ${open === i ? "open" : ""}`}>{f.a}</div>
-              </div>
-            ))}
-          </div>
+        <div className="faq-wrap fade-in">
+          {faqs.map((f, i) => (
+            <div key={i} className="faq-item">
+              <button className="faq-question" onClick={() => setOpen(open === i ? null : i)}>
+                <span>{f.q}</span>
+                <i className={`faq-icon fas fa-chevron-${open === i ? "up" : "down"}`} />
+              </button>
+              <div className={`faq-answer ${open === i ? "open" : ""}`}>{f.a}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -696,15 +753,13 @@ function Gallery() {
           <h2 className="section-title">Our <span>Clinic Facilities</span></h2>
           <p className="section-desc">A world-class environment designed for your comfort, privacy, and best outcomes.</p>
         </div>
-        <div className="row g-3">
+        <div className="gallery-grid">
           {items.map((item) => (
-            <div key={item.title} className="col-6 col-md-4 fade-in">
-              <div className="gallery-item">
-                <img src={item.img} alt={item.title} className="gallery-img" loading="lazy" />
-                <div className="gallery-overlay">
-                  <div className="gallery-overlay-title">{item.title}</div>
-                  <div className="gallery-overlay-sub">{item.sub}</div>
-                </div>
+            <div key={item.title} className="gallery-item fade-in">
+              <img src={item.img} alt={item.title} className="gallery-img" loading="lazy" />
+              <div className="gallery-overlay">
+                <div className="gallery-overlay-title">{item.title}</div>
+                <div className="gallery-overlay-sub">{item.sub}</div>
               </div>
             </div>
           ))}
@@ -730,15 +785,13 @@ function Staff() {
           <h2 className="section-title">Meet Our <span>Caring Team</span></h2>
           <p className="section-desc">A dedicated multidisciplinary team committed to your fertility journey.</p>
         </div>
-        <div className="row g-4">
+        <div className="staff-grid">
           {staff.map((s) => (
-            <div key={s.name} className="col-sm-6 col-lg-3 fade-in">
-              <div className="staff-card">
-                <div className="staff-avatar" style={{ background: s.bg }}>{s.icon}</div>
-                <div className="staff-name">{s.name}</div>
-                <div className="staff-role">{s.role}</div>
-                <p className="staff-desc">{s.desc}</p>
-              </div>
+            <div key={s.name} className="staff-card fade-in">
+              <div className="staff-avatar" style={{ background: s.bg }}>{s.icon}</div>
+              <div className="staff-name">{s.name}</div>
+              <div className="staff-role">{s.role}</div>
+              <p className="staff-desc">{s.desc}</p>
             </div>
           ))}
         </div>
@@ -749,19 +802,18 @@ function Staff() {
 
 /* ──────────────────── Contact ──────────────────── */
 function Contact() {
-  const { success, setSuccess, handleSubmit, iframe } = useIframeForm("iframe_contact");
+  const { status, setStatus, handleSubmit } = useAjaxForm("New Contact Message – Sunrice IVF Center");
 
   return (
     <section id="contact" className="contact-section">
-      {iframe}
       <div className="container">
         <div className="text-center mb-5 fade-in">
           <div className="section-badge"><i className="fas fa-envelope" /> Contact Us</div>
           <h2 className="section-title">Get in <span>Touch</span></h2>
           <p className="section-desc">We're here to answer your questions and guide you towards the right treatment.</p>
         </div>
-        <div className="row g-5">
-          <div className="col-lg-5 fade-in-left">
+        <div className="contact-grid">
+          <div className="fade-in-left">
             <div className="contact-info-card">
               <h4 style={{ fontFamily: "var(--font-heading)", fontSize: "1.2rem", fontWeight: 700, marginBottom: "1.5rem" }}>Contact Details</h4>
               {[
@@ -778,7 +830,7 @@ function Contact() {
                   </div>
                 </div>
               ))}
-              <div className="flex-wrap-gap mt-3">
+              <div className="btn-row mt-3">
                 <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="btn-whatsapp" style={{ fontSize: "0.875rem", padding: "0.7rem 1.25rem" }}>
                   <i className="fab fa-whatsapp" /> Open WhatsApp
                 </a>
@@ -796,28 +848,11 @@ function Contact() {
             </div>
           </div>
 
-          <div className="col-lg-7 fade-in-right">
-            {success && (
-              <div className="success-banner" style={{ marginBottom: "1.5rem" }}>
-                <i className="fas fa-check-circle" style={{ fontSize: "1.5rem", color: "#059669" }} />
-                <div>
-                  <div style={{ fontWeight: 700, color: "#065f46" }}>Message Sent!</div>
-                  <div style={{ fontSize: "0.85rem", color: "#047857" }}>We'll reply within 24 hours. For faster response, please WhatsApp us.</div>
-                </div>
-                <button className="success-close" onClick={() => setSuccess(false)}>✕</button>
-              </div>
-            )}
+          <div className="fade-in-right">
+            {status === "success" && <FormSuccess msg="We'll reply within 24 hours. For faster response, WhatsApp us directly." onClose={() => setStatus("idle")} />}
+            {status === "error" && <FormError onClose={() => setStatus("idle")} />}
             <div className="form-card">
-              <form
-                action={`https://formsubmit.co/${EMAIL}`}
-                method="POST"
-                target="iframe_contact"
-                onSubmit={handleSubmit}
-              >
-                <input type="hidden" name="_subject" value="New Contact Message – Sunrice IVF Center" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_template" value="table" />
-
+              <form onSubmit={handleSubmit}>
                 <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label-custom">Name *</label>
@@ -833,15 +868,13 @@ function Contact() {
                   </div>
                   <div className="form-group form-full">
                     <label className="form-label-custom">Message *</label>
-                    <textarea name="Message" className="form-control-custom" rows={4} placeholder="How can we help you?" style={{ resize: "vertical" }} required />
+                    <textarea name="Message" className="form-control-custom" rows={5} placeholder="How can we help you?" style={{ resize: "vertical" }} required />
                   </div>
                   <div className="form-group form-full">
-                    <button type="submit" className="btn-primary-custom btn-full">
-                      <i className="fas fa-paper-plane me-1" /> Send Message
+                    <button type="submit" className="btn-primary-custom btn-full" disabled={status === "loading"}>
+                      {status === "loading" ? <><i className="fas fa-spinner fa-spin me-1" /> Sending…</> : <><i className="fas fa-paper-plane me-1" /> Send Message</>}
                     </button>
-                    <p className="form-note">
-                      <i className="fas fa-lock me-1" /> Your information is private and secure.
-                    </p>
+                    <p className="form-note"><i className="fas fa-lock me-1" /> Your information is private and secure.</p>
                   </div>
                 </div>
               </form>
@@ -859,11 +892,12 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="container">
-        <div className="row g-5">
-          <div className="col-lg-4">
-            <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.6rem" }}>
+        <div className="footer-grid">
+          {/* Brand */}
+          <div className="footer-brand-col">
+            <div className="footer-brand-row">
               <span style={{ fontSize: "2rem" }}>🌸</span>
-              <div className="footer-brand">Sunrice IVF Center</div>
+              <span className="footer-brand-name">Sunrice IVF Center</span>
             </div>
             <p className="footer-desc">Shahjahanpur's most trusted fertility centre — bringing hope, science, and compassion together for every family's journey to parenthood.</p>
             <div className="social-icons">
@@ -879,37 +913,56 @@ function Footer() {
               ))}
             </div>
           </div>
-          <div className="col-6 col-lg-2">
+
+          {/* Quick Links */}
+          <div className="footer-links-col">
             <div className="footer-heading">Quick Links</div>
-            {[["Home","#home"],["About","#about"],["Doctor","#doctor"],["Services","#services"],["Reviews","#testimonials"],["Contact","#contact"]].map(([l,h]) => (
-              <a key={l} href={h} className="footer-link">{l}</a>
+            {[["Home","#home"],["About","#about"],["Doctor","#doctor"],["Services","#services"],["Reviews","#testimonials"],["FAQ","#faq"],["Contact","#contact"]].map(([l,h]) => (
+              <a key={l} href={h} className="footer-link"><i className="fas fa-chevron-right footer-link-arrow" />{l}</a>
             ))}
           </div>
-          <div className="col-6 col-lg-2">
-            <div className="footer-heading">Services</div>
-            {["IVF Treatment","IUI Treatment","Fertility Consult","Pregnancy Care","Women Health"].map((s) => (
-              <a key={s} href="#services" className="footer-link">{s}</a>
+
+          {/* Services */}
+          <div className="footer-links-col">
+            <div className="footer-heading">Our Services</div>
+            {["IVF Treatment","IUI Treatment","Fertility Consult","Pregnancy Care","Women Health","Infertility Diagnosis"].map((s) => (
+              <a key={s} href="#services" className="footer-link"><i className="fas fa-chevron-right footer-link-arrow" />{s}</a>
             ))}
           </div>
-          <div className="col-lg-4">
-            <div className="footer-heading">Contact Information</div>
-            {[
-              { icon: "fas fa-map-marker-alt", text: "निकट 100 फिटा मोड़, पीलीभीत बाईपास रोड बरेली, उत्तर प्रदेश" },
-              { icon: "fas fa-phone", text: PHONE },
-              { icon: "fas fa-envelope", text: EMAIL },
-              { icon: "fas fa-clock", text: "Mon–Fri: 8AM–8PM | Sat: 9AM–6PM" },
-            ].map(({ icon, text }) => (
-              <div key={text} className="footer-contact-item">
-                <i className={icon} />
-                <span>{text}</span>
-              </div>
-            ))}
+
+          {/* Contact */}
+          <div className="footer-contact-col">
+            <div className="footer-heading">Contact Us</div>
+            <div className="footer-contact-item">
+              <i className="fas fa-map-marker-alt" />
+              <span>निकट 100 फिटा मोड़, पीलीभीत बाईपास रोड बरेली, उत्तर प्रदेश</span>
+            </div>
+            <div className="footer-contact-item">
+              <i className="fas fa-phone" />
+              <a href={`tel:${PHONE}`} style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>{PHONE}</a>
+            </div>
+            <div className="footer-contact-item">
+              <i className="fas fa-envelope" />
+              <a href={`mailto:${EMAIL}`} style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>{EMAIL}</a>
+            </div>
+            <div className="footer-contact-item">
+              <i className="fas fa-clock" />
+              <span>Mon–Fri: 8AM–8PM | Sat: 9AM–6PM</span>
+            </div>
+            <a href="#appointment" className="btn-primary-custom mt-3" style={{ fontSize: "0.875rem", padding: "0.7rem 1.25rem" }}>
+              <i className="fas fa-calendar-check" /> Book Appointment
+            </a>
           </div>
         </div>
-        <div className="footer-divider" />
-        <p className="footer-copyright">
-          © {year} Sunrice IVF Center Shahjahanpur. All rights reserved. | Designed with 🌸 for every family's dream.
-        </p>
+
+        <div className="footer-bottom">
+          <p className="footer-copyright">
+            © {year} Sunrice IVF Center Shahjahanpur. All rights reserved.
+          </p>
+          <p className="footer-copyright">
+            Designed with 🌸 for every family's dream.
+          </p>
+        </div>
       </div>
     </footer>
   );
@@ -927,10 +980,13 @@ function WhatsAppPopup() {
   }, [dismissed]);
 
   const close = () => { setVisible(false); setDismissed(true); };
+  const toggle = () => {
+    if (dismissed) { setDismissed(false); setVisible(true); }
+    else setVisible((v) => !v);
+  };
 
   return (
     <>
-      {/* Popup card */}
       <div className={`wa-popup ${visible ? "wa-popup-visible" : ""}`}>
         <button className="wa-popup-close" onClick={close} aria-label="Close">✕</button>
         <div className="wa-popup-header">
@@ -945,38 +1001,31 @@ function WhatsAppPopup() {
         </div>
         <div className="wa-popup-bubble">
           <p>👋 Hello! I'm Dr. Shabina Khan.</p>
-          <p>Have questions about <strong>IVF, IUI, or fertility treatment</strong>? I'm here to help. Chat with us directly on WhatsApp for a <strong>free consultation!</strong> 🌸</p>
+          <p>Have questions about <strong>IVF, IUI, or fertility treatment</strong>? Chat with us for a <strong>free consultation!</strong> 🌸</p>
           <span className="wa-popup-time">Online now</span>
         </div>
         <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="wa-popup-btn" onClick={close}>
           <i className="fab fa-whatsapp" /> Start Chat on WhatsApp
         </a>
       </div>
-
-      {/* Floating WhatsApp button */}
-      <button
-        className="float-whatsapp"
-        title="WhatsApp Consultation"
-        onClick={() => { if (dismissed || !visible) { setVisible(!visible); } else { close(); } }}
-        aria-label="WhatsApp"
-      >
+      <button className="float-whatsapp" onClick={toggle} aria-label="WhatsApp">
         <i className="fab fa-whatsapp" />
       </button>
     </>
   );
 }
 
-/* ──────────────────── Floating Buttons ──────────────────── */
-function FloatingButtons() {
-  const [showTop, setShowTop] = useState(false);
+/* ──────────────────── Back to Top ──────────────────── */
+function BackToTop() {
+  const [show, setShow] = useState(false);
   useEffect(() => {
-    const fn = () => setShowTop(window.scrollY > 400);
+    const fn = () => setShow(window.scrollY > 400);
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
   return (
     <button
-      className={`back-to-top ${showTop ? "visible" : ""}`}
+      className={`back-to-top ${show ? "visible" : ""}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Back to top"
     >
@@ -1009,6 +1058,7 @@ export default function App() {
       <Loader done={loaderDone} />
       <Navbar />
       <Hero />
+      <Counters />
       <About />
       <Doctor />
       <Services />
@@ -1021,7 +1071,7 @@ export default function App() {
       <Contact />
       <Footer />
       <WhatsAppPopup />
-      <FloatingButtons />
+      <BackToTop />
     </>
   );
 }
