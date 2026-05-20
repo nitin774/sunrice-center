@@ -1,7 +1,26 @@
 import { useEffect, useRef, useState } from "react";
+import doctorImg from "@assets/1740140174386-274160310_1779296683361.webp";
+import reviewsImg from "@assets/reviews_1779296683360.jpeg";
+import clinicalImg from "@assets/oardefault_1779296683359.jpg";
 
-const PHONE = "+919876543210";
-const WHATSAPP_URL = `https://wa.me/${PHONE.replace("+", "")}?text=Hello%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20Sunrice%20IVF%20Center.`;
+const WA_NUMBER = "916307228836";
+const WA_URL = `https://wa.me/${WA_NUMBER}?text=Hello%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20Sunrice%20IVF%20Center.`;
+const EMAIL = "nitinshrivastava191@gmail.com";
+const PHONE = "8630268144";
+
+const UNSPLASH = {
+  hero: "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=900&q=80&auto=format&fit=crop",
+  ivf: "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&q=80&auto=format&fit=crop",
+  iui: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80&auto=format&fit=crop",
+  fertility: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&q=80&auto=format&fit=crop",
+  pregnancy: "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600&q=80&auto=format&fit=crop",
+  lab: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=600&q=80&auto=format&fit=crop",
+  womens: "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=600&q=80&auto=format&fit=crop",
+  clinic1: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=700&q=80&auto=format&fit=crop",
+  clinic2: "https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=700&q=80&auto=format&fit=crop",
+  clinic3: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=700&q=80&auto=format&fit=crop",
+  about: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80&auto=format&fit=crop",
+};
 
 function Loader({ done }: { done: boolean }) {
   return (
@@ -15,6 +34,8 @@ function Loader({ done }: { done: boolean }) {
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll);
@@ -24,115 +45,111 @@ function Navbar() {
   const links = [
     { label: "Home", href: "#home" },
     { label: "About", href: "#about" },
-    { label: "Services", href: "#services" },
     { label: "Doctor", href: "#doctor" },
-    { label: "Testimonials", href: "#testimonials" },
+    { label: "Services", href: "#services" },
+    { label: "Reviews", href: "#testimonials" },
+    { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },
   ];
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-custom fixed-top"
-      style={{ boxShadow: scrolled ? "0 4px 30px rgba(219,39,119,0.12)" : undefined }}
-    >
-      <div className="container">
-        <a className="navbar-brand" href="#home">
-          <div className="d-flex align-items-center gap-2">
-            <span style={{ fontSize: "1.75rem" }}>🌸</span>
+    <>
+      <nav className="navbar-custom" style={{ boxShadow: scrolled ? "0 4px 30px rgba(219,39,119,0.12)" : undefined }}>
+        <div className="nav-container">
+          <a className="navbar-brand-link" href="#home" onClick={closeMenu}>
+            <span style={{ fontSize: "1.75rem", lineHeight: 1 }}>🌸</span>
             <div>
               <div className="navbar-brand-text">Sunrice IVF Center</div>
               <div className="navbar-brand-sub">Shahjahanpur</div>
             </div>
-          </div>
-        </a>
-        <button
-          className="navbar-toggler border-0"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-label="Toggle navigation"
-        >
-          <i className="fas fa-bars" style={{ color: "#db2777" }}></i>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto align-items-center gap-1">
-            {links.map((l) => (
-              <li key={l.href} className="nav-item">
-                <a className="nav-link nav-link-custom" href={l.href}>
-                  {l.label}
+          </a>
+
+          <button
+            className="nav-hamburger"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation"
+          >
+            <span className={`ham-line ${menuOpen ? "open" : ""}`}></span>
+            <span className={`ham-line ${menuOpen ? "open" : ""}`}></span>
+            <span className={`ham-line ${menuOpen ? "open" : ""}`}></span>
+          </button>
+
+          <div className={`nav-links-wrapper ${menuOpen ? "open" : ""}`}>
+            <ul className="nav-links-list">
+              {links.map((l) => (
+                <li key={l.href}>
+                  <a className="nav-link-custom" href={l.href} onClick={closeMenu}>{l.label}</a>
+                </li>
+              ))}
+              <li>
+                <a className="nav-link-custom nav-cta" href="#appointment" onClick={closeMenu}>
+                  <i className="fas fa-calendar-check"></i> Book Appointment
                 </a>
               </li>
-            ))}
-            <li className="nav-item ms-2">
-              <a className="nav-link nav-link-custom nav-cta" href="#appointment">
-                <i className="fas fa-calendar-check me-1"></i> Book Appointment
-              </a>
-            </li>
-          </ul>
+              <li>
+                <a className="nav-link-custom nav-wa" href={WA_URL} target="_blank" rel="noopener noreferrer" onClick={closeMenu}>
+                  <i className="fab fa-whatsapp"></i> WhatsApp
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+      {menuOpen && <div className="nav-overlay" onClick={closeMenu}></div>}
+    </>
   );
 }
 
 function Hero() {
   return (
     <section id="home" className="hero-section">
-      <div className="container">
+      <div className="hero-bg-image" style={{ backgroundImage: `url(${UNSPLASH.hero})` }}></div>
+      <div className="hero-overlay"></div>
+      <div className="container" style={{ position: "relative", zIndex: 2 }}>
         <div className="row align-items-center g-5">
-          <div className="col-lg-6">
+          <div className="col-lg-7">
             <div className="hero-badge fade-in">
-              <i className="fas fa-award"></i> Trusted Fertility Center
+              <i className="fas fa-award"></i> ICMR Registered · Trusted Fertility Centre
             </div>
             <h1 className="hero-title fade-in">
-              Welcome to <span>Sunrice IVF Center</span> Shahjahanpur
+              Welcome to <span>Sunrice IVF Center</span><br />Shahjahanpur
             </h1>
             <p className="hero-subtitle fade-in">
-              Advanced Fertility & IVF Care with Compassion. We help families achieve their dream of parenthood with world-class medical expertise and heartfelt care.
+              Advanced Fertility & IVF Care with Compassion — led by Dr. Shabina Khan, helping families achieve their dream of parenthood with world-class expertise.
             </p>
             <div className="d-flex flex-wrap gap-3 fade-in">
               <a href="#appointment" className="btn-primary-custom">
                 <i className="fas fa-calendar-check"></i> Book Appointment
               </a>
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-whatsapp">
-                <i className="fab fa-whatsapp"></i> WhatsApp Us
+              <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="btn-whatsapp">
+                <i className="fab fa-whatsapp"></i> WhatsApp Consultation
               </a>
             </div>
-            <div className="row mt-4 g-3">
+            <div className="hero-stats fade-in">
               {[
                 { num: "2000+", label: "Happy Families" },
                 { num: "98%", label: "Success Rate" },
-                { num: "15+", label: "Years Experience" },
-                { num: "24/7", label: "Care Available" },
+                { num: "15+", label: "Years Exp." },
+                { num: "24/7", label: "Support" },
               ].map((s) => (
-                <div key={s.label} className="col-6 col-sm-3">
-                  <div className="text-center glass" style={{ borderRadius: "1rem", padding: "0.75rem" }}>
-                    <div style={{ fontFamily: "var(--font-heading)", fontSize: "1.375rem", fontWeight: 700, color: "#db2777" }}>{s.num}</div>
-                    <div style={{ fontSize: "0.7rem", color: "#6b7280", fontWeight: 500 }}>{s.label}</div>
-                  </div>
+                <div key={s.label} className="hero-stat-item">
+                  <div className="hero-stat-num">{s.num}</div>
+                  <div className="hero-stat-label">{s.label}</div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="col-lg-6">
-            <div className="hero-visual fade-in-right">
-              <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-                <div style={{ fontSize: "5rem", lineHeight: 1 }}>🌸</div>
-                <div style={{ fontFamily: "var(--font-heading)", fontSize: "1.1rem", fontWeight: 700, color: "#db2777", marginTop: "0.5rem" }}>Dr. Shabina Khan</div>
-                <div style={{ fontSize: "0.8rem", color: "#6b7280" }}>IVF & Fertility Specialist</div>
-              </div>
-              <div className="hero-icon-grid">
-                {[
-                  { icon: "🧬", label: "IVF Treatment" },
-                  { icon: "💊", label: "Fertility Care" },
-                  { icon: "🤰", label: "Pregnancy Care" },
-                  { icon: "🔬", label: "Infertility Diagnosis" },
-                ].map((item) => (
-                  <div key={item.label} className="hero-icon-card">
-                    <div className="icon">{item.icon}</div>
-                    <div className="label">{item.label}</div>
-                  </div>
-                ))}
+          <div className="col-lg-5 d-none d-lg-block">
+            <div className="hero-doc-card fade-in-right">
+              <img src={doctorImg} alt="Dr. Shabina Khan" className="hero-doc-img" />
+              <div className="hero-doc-info">
+                <div style={{ fontFamily: "var(--font-heading)", fontSize: "1.1rem", fontWeight: 700, color: "#db2777" }}>Dr. Shabina Khan</div>
+                <div style={{ fontSize: "0.8rem", color: "#6b7280" }}>MBBS, MS · IVF & Fertility Specialist</div>
+                <div style={{ fontSize: "0.75rem", color: "#059669", fontWeight: 600, marginTop: "0.3rem" }}>
+                  <i className="fas fa-circle" style={{ fontSize: "0.5rem", marginRight: "0.3rem" }}></i>Available for Consultation
+                </div>
               </div>
             </div>
           </div>
@@ -143,90 +160,81 @@ function Hero() {
 }
 
 function About() {
-  const cards = [
-    {
-      icon: "🏥",
-      cls: "pink",
-      title: "Our Mission",
-      desc: "To provide compassionate, cutting-edge fertility care that transforms lives. We combine medical excellence with emotional support to guide every family on their journey to parenthood.",
-    },
-    {
-      icon: "🌟",
-      cls: "lavender",
-      title: "Why Choose Us",
-      desc: "State-of-the-art IVF lab, personalised treatment plans, experienced specialists, transparent pricing, and a warm, supportive environment where every patient feels valued.",
-    },
-    {
-      icon: "💖",
-      cls: "blue",
-      title: "Our Vision",
-      desc: "To become the most trusted fertility centre in Uttar Pradesh — accessible, affordable, and internationally benchmarked, bringing hope to every couple who walks through our doors.",
-    },
-  ];
   return (
     <section id="about" className="about-section">
       <div className="container">
-        <div className="text-center mb-5 fade-in">
-          <div className="section-badge"><i className="fas fa-heart"></i> About Us</div>
-          <h2 className="section-title">Turning Dreams into <span>Reality</span></h2>
-          <p className="section-desc">
-            Sunrice IVF Center is a leading fertility clinic in Shahjahanpur, dedicated to helping couples overcome infertility with advanced treatments and compassionate care.
-          </p>
-        </div>
-        <div className="row g-4">
-          {cards.map((c) => (
-            <div key={c.title} className="col-md-4 fade-in">
-              <div className="about-card">
-                <div className={`about-icon ${c.cls}`}>{c.icon}</div>
-                <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.2rem", fontWeight: 700, marginBottom: "0.75rem" }}>
-                  {c.title}
-                </h3>
-                <p style={{ fontSize: "0.9rem", color: "#4b5563", lineHeight: 1.7 }}>{c.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-5 fade-in">
-          <div className="row g-4 align-items-center">
-            <div className="col-lg-6">
-              <div className="section-badge"><i className="fas fa-clock"></i> Clinic Timings</div>
-              <h3 className="section-title" style={{ fontSize: "1.75rem" }}>When We <span>Are Open</span></h3>
-              <div className="row g-3 mt-2">
-                {[
-                  { day: "Mon – Fri", time: "8:00 AM – 8:00 PM", icon: "🗓️" },
-                  { day: "Saturday", time: "9:00 AM – 6:00 PM", icon: "🗓️" },
-                  { day: "Sunday", time: "10:00 AM – 2:00 PM", icon: "🗓️" },
-                  { day: "Emergency", time: "24 Hours", icon: "🚨" },
-                ].map((t) => (
-                  <div key={t.day} className="col-6">
-                    <div className="timing-card">
-                      <div style={{ fontSize: "1.5rem", marginBottom: "0.4rem" }}>{t.icon}</div>
-                      <div style={{ fontWeight: 700, fontSize: "0.875rem", color: "#1f2937" }}>{t.day}</div>
-                      <div style={{ fontSize: "0.8rem", color: "#db2777", fontWeight: 600, marginTop: "0.2rem" }}>{t.time}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <div style={{ background: "linear-gradient(135deg, #fce7f3, #ede9fe)", borderRadius: "1.5rem", padding: "2rem" }}>
-                <h4 style={{ fontFamily: "var(--font-heading)", fontSize: "1.3rem", fontWeight: 700, marginBottom: "1rem" }}>Our Accreditations</h4>
-                {[
-                  "ICMR Registered IVF Center",
-                  "ISO 9001:2015 Certified",
-                  "FOGSI Member",
-                  "Certified Embryologists on Staff",
-                  "Advanced Andrology Lab",
-                ].map((item) => (
-                  <div key={item} className="d-flex align-items-center gap-2 mb-2">
-                    <i className="fas fa-check-circle" style={{ color: "#db2777" }}></i>
-                    <span style={{ fontSize: "0.9rem", color: "#374151" }}>{item}</span>
-                  </div>
-                ))}
+        <div className="row g-5 align-items-center">
+          <div className="col-lg-5 fade-in-left">
+            <div className="about-img-wrapper">
+              <img src={reviewsImg} alt="Dr. Shabina Khan consulting a patient" className="about-main-img" />
+              <div className="about-img-badge">
+                <i className="fas fa-heart" style={{ color: "#db2777" }}></i>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: "1rem" }}>2000+</div>
+                  <div style={{ fontSize: "0.7rem", color: "#6b7280" }}>Happy Families</div>
+                </div>
               </div>
             </div>
           </div>
+          <div className="col-lg-7 fade-in-right">
+            <div className="section-badge"><i className="fas fa-heart"></i> About Sunrice IVF</div>
+            <h2 className="section-title">Turning Dreams into <span>Reality</span></h2>
+            <p style={{ fontSize: "0.95rem", color: "#4b5563", lineHeight: 1.8, marginBottom: "1.5rem" }}>
+              Sunrice IVF Center is Shahjahanpur's premier fertility clinic, committed to helping couples overcome infertility through advanced, compassionate care. Under the expert guidance of Dr. Shabina Khan, we blend cutting-edge reproductive technology with heartfelt support.
+            </p>
+            <div className="row g-3 mb-4">
+              {[
+                { icon: "🏥", title: "Our Mission", desc: "Compassionate, world-class fertility care accessible to every family." },
+                { icon: "🌟", title: "Why Choose Us", desc: "State-of-the-art IVF lab, personalised plans, transparent pricing." },
+                { icon: "💖", title: "Our Vision", desc: "Most trusted fertility centre in UP — internationally benchmarked." },
+              ].map((c) => (
+                <div key={c.title} className="col-sm-4">
+                  <div className="about-mini-card">
+                    <div style={{ fontSize: "1.75rem", marginBottom: "0.5rem" }}>{c.icon}</div>
+                    <div style={{ fontWeight: 700, fontSize: "0.875rem", color: "#1f2937", marginBottom: "0.3rem" }}>{c.title}</div>
+                    <div style={{ fontSize: "0.775rem", color: "#6b7280", lineHeight: 1.5 }}>{c.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {[
+              "ICMR Registered IVF Center",
+              "ISO 9001:2015 Certified Clinic",
+              "FOGSI Member · Advanced Embryology Lab",
+              "15+ Years of Excellence in Fertility Care",
+            ].map((item) => (
+              <div key={item} className="d-flex align-items-center gap-2 mb-2">
+                <i className="fas fa-check-circle" style={{ color: "#db2777" }}></i>
+                <span style={{ fontSize: "0.9rem", color: "#374151" }}>{item}</span>
+              </div>
+            ))}
+            <div className="mt-4">
+              <a href="#appointment" className="btn-primary-custom">
+                <i className="fas fa-calendar-check"></i> Book Free Consultation
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="row g-3 mt-5 fade-in">
+          <div className="col-12 text-center mb-3">
+            <div className="section-badge"><i className="fas fa-clock"></i> Clinic Timings</div>
+            <h3 className="section-title" style={{ fontSize: "1.75rem" }}>When We <span>Are Open</span></h3>
+          </div>
+          {[
+            { day: "Mon – Fri", time: "8:00 AM – 8:00 PM", icon: "🗓️" },
+            { day: "Saturday", time: "9:00 AM – 6:00 PM", icon: "🗓️" },
+            { day: "Sunday", time: "10:00 AM – 2:00 PM", icon: "🗓️" },
+            { day: "Emergency", time: "24 Hours Available", icon: "🚨" },
+          ].map((t) => (
+            <div key={t.day} className="col-6 col-md-3">
+              <div className="timing-card text-center">
+                <div style={{ fontSize: "1.75rem", marginBottom: "0.4rem" }}>{t.icon}</div>
+                <div style={{ fontWeight: 700, fontSize: "0.9rem", color: "#1f2937" }}>{t.day}</div>
+                <div style={{ fontSize: "0.8rem", color: "#db2777", fontWeight: 600, marginTop: "0.2rem" }}>{t.time}</div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -240,47 +248,55 @@ function Doctor() {
         <div className="text-center mb-5 fade-in">
           <div className="section-badge"><i className="fas fa-user-md"></i> Our Expert</div>
           <h2 className="section-title">Meet <span>Dr. Shabina Khan</span></h2>
-          <p className="section-desc">A compassionate fertility specialist with over 15 years of experience in reproductive medicine and IVF.</p>
+          <p className="section-desc">A compassionate fertility specialist with 15+ years of experience in reproductive medicine and IVF.</p>
         </div>
         <div className="row g-5 align-items-center">
           <div className="col-lg-5 fade-in-left">
-            <div className="doctor-card text-center">
-              <div className="doctor-avatar">👩‍⚕️</div>
-              <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.25rem" }}>Dr. Shabina Khan</h3>
-              <div style={{ color: "#7c3aed", fontWeight: 600, fontSize: "0.9rem", marginBottom: "1.25rem" }}>IVF & Fertility Specialist</div>
-              <div>
-                {["MBBS", "MS (Obstetrics & Gynaecology)", "Fellowship – Reproductive Medicine", "IVF Specialist – 15+ Years"].map((b) => (
-                  <span key={b} className="doctor-badge">{b}</span>
-                ))}
+            <div className="doctor-photo-card">
+              <img src={doctorImg} alt="Dr. Shabina Khan – IVF Specialist" className="doctor-real-img" />
+              <div className="doctor-photo-badge">
+                <i className="fas fa-award" style={{ color: "#db2777", fontSize: "1.25rem" }}></i>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: "0.875rem" }}>Hindustan Gaurav Samman</div>
+                  <div style={{ fontSize: "0.75rem", color: "#6b7280" }}>Award Recipient</div>
+                </div>
               </div>
-              <div className="d-flex justify-content-center gap-3 mt-3">
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-whatsapp" style={{ padding: "0.6rem 1.5rem", fontSize: "0.875rem" }}>
-                  <i className="fab fa-whatsapp"></i> Consult Now
-                </a>
+              <div className="doctor-name-overlay">
+                <div style={{ fontFamily: "var(--font-heading)", fontSize: "1.2rem", fontWeight: 700, color: "white" }}>Dr. Shabina Khan</div>
+                <div style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.85)" }}>MBBS, MS · IVF & Infertility Specialist</div>
               </div>
             </div>
           </div>
           <div className="col-lg-7 fade-in-right">
-            <div className="section-badge"><i className="fas fa-star"></i> Credentials</div>
+            <div className="section-badge"><i className="fas fa-star"></i> Credentials & Expertise</div>
             <h3 className="section-title" style={{ fontSize: "1.75rem" }}>15+ Years of <span>Excellence</span></h3>
-            <p style={{ fontSize: "0.95rem", color: "#4b5563", lineHeight: 1.7, marginBottom: "1.5rem" }}>
-              Dr. Shabina Khan is a highly skilled fertility specialist who has helped thousands of couples achieve parenthood. Her expertise spans IVF, IUI, egg freezing, ICSI, and complex reproductive conditions.
+            <p style={{ fontSize: "0.95rem", color: "#4b5563", lineHeight: 1.8, marginBottom: "1.5rem" }}>
+              Dr. Shabina Khan is one of Uttar Pradesh's most respected fertility specialists. With over 15 years in reproductive medicine, she has helped thousands of couples achieve parenthood through personalised, evidence-based fertility treatments.
             </p>
             {[
-              { icon: "fas fa-graduation-cap", label: "Qualification", value: "MBBS, MS (OB/GYN), Fellowship in Reproductive Medicine" },
-              { icon: "fas fa-briefcase-medical", label: "Experience", value: "15+ Years in Fertility & Reproductive Medicine" },
-              { icon: "fas fa-microscope", label: "Specialisation", value: "IVF, IUI, ICSI, Egg Freezing, Recurrent Pregnancy Loss" },
+              { icon: "fas fa-graduation-cap", label: "Qualification", value: "MBBS, MS (Obstetrics & Gynaecology) · Fellowship in Reproductive Medicine" },
+              { icon: "fas fa-briefcase-medical", label: "Experience", value: "15+ Years in Fertility, IVF & Reproductive Medicine" },
+              { icon: "fas fa-microscope", label: "Specialisation", value: "IVF, IUI, ICSI, Egg Freezing, PCOS, Recurrent Pregnancy Loss" },
               { icon: "fas fa-hospital", label: "Training", value: "Advanced IVF Training from National & International Institutes" },
-              { icon: "fas fa-award", label: "Recognition", value: "Best Fertility Specialist Award – Uttar Pradesh Medical Forum" },
+              { icon: "fas fa-award", label: "Recognition", value: "Hindustan Gaurav Samman Award · FOGSI Member" },
+              { icon: "fas fa-phone", label: "Direct Contact", value: `Call: ${PHONE} · Email: khanshabina21@gmail.com` },
             ].map((c) => (
               <div key={c.label} className="credential-item">
                 <div className="credential-icon"><i className={c.icon}></i></div>
                 <div>
-                  <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "#db2777", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "0.1rem" }}>{c.label}</div>
-                  <div style={{ fontSize: "0.9rem", color: "#1f2937" }}>{c.value}</div>
+                  <div style={{ fontSize: "0.72rem", fontWeight: 700, color: "#db2777", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.1rem" }}>{c.label}</div>
+                  <div style={{ fontSize: "0.875rem", color: "#1f2937" }}>{c.value}</div>
                 </div>
               </div>
             ))}
+            <div className="d-flex flex-wrap gap-3 mt-4">
+              <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="btn-whatsapp">
+                <i className="fab fa-whatsapp"></i> WhatsApp Consultation
+              </a>
+              <a href={`tel:${PHONE}`} className="btn-outline-pink">
+                <i className="fas fa-phone"></i> Call Now
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -290,12 +306,12 @@ function Doctor() {
 
 function Services() {
   const services = [
-    { icon: "🧬", bg: "#fce7f3", title: "IVF Treatment", desc: "In-Vitro Fertilisation using the latest reproductive technologies with high success rates for couples who have not conceived naturally." },
-    { icon: "💉", bg: "#ede9fe", title: "IUI Treatment", desc: "Intrauterine Insemination – a minimally invasive fertility procedure ideal for couples with mild infertility factors." },
-    { icon: "🤝", bg: "#dbeafe", title: "Fertility Consultation", desc: "Comprehensive evaluation of both partners to diagnose infertility causes and create a personalised treatment roadmap." },
-    { icon: "🤰", bg: "#d1fae5", title: "Pregnancy Care", desc: "Complete antenatal care and high-risk pregnancy management to ensure a safe journey through all three trimesters." },
-    { icon: "🔬", bg: "#fef3c7", title: "Infertility Diagnosis", desc: "Advanced diagnostic tests including semen analysis, hormonal profiling, HSG, and genetic screening for accurate assessment." },
-    { icon: "🩺", bg: "#ffe4e6", title: "Women Health Care", desc: "Specialised care for endometriosis, PCOS, uterine fibroids, ovarian cysts, and other gynaecological conditions." },
+    { img: UNSPLASH.ivf, title: "IVF Treatment", desc: "In-Vitro Fertilisation using the latest reproductive technologies with high success rates for couples who haven't conceived naturally.", icon: "🧬" },
+    { img: UNSPLASH.iui, title: "IUI Treatment", desc: "Intrauterine Insemination — a minimally invasive fertility procedure ideal for couples with mild infertility factors.", icon: "💉" },
+    { img: UNSPLASH.fertility, title: "Fertility Consultation", desc: "Comprehensive evaluation of both partners to diagnose infertility causes and create a personalised treatment roadmap.", icon: "🤝" },
+    { img: UNSPLASH.pregnancy, title: "Pregnancy Care", desc: "Complete antenatal care and high-risk pregnancy management to ensure a safe journey through all three trimesters.", icon: "🤰" },
+    { img: UNSPLASH.lab, title: "Infertility Diagnosis", desc: "Advanced diagnostic tests including semen analysis, hormonal profiling, HSG, and genetic screening.", icon: "🔬" },
+    { img: UNSPLASH.womens, title: "Women Health Care", desc: "Specialised care for endometriosis, PCOS, uterine fibroids, ovarian cysts, and other gynaecological conditions.", icon: "🩺" },
   ];
   return (
     <section id="services" className="services-section">
@@ -309,11 +325,14 @@ function Services() {
           {services.map((s) => (
             <div key={s.title} className="col-md-6 col-lg-4 fade-in">
               <div className="service-card">
-                <div className="service-icon" style={{ background: s.bg }}>{s.icon}</div>
-                <h3 className="service-title">{s.title}</h3>
-                <p className="service-desc">{s.desc}</p>
-                <div style={{ marginTop: "1rem", fontSize: "0.8rem", fontWeight: 600, color: "#db2777" }}>
-                  <a href="#appointment" style={{ color: "inherit", textDecoration: "none" }}>
+                <div className="service-img-wrap">
+                  <img src={s.img} alt={s.title} className="service-img" loading="lazy" />
+                  <div className="service-img-icon">{s.icon}</div>
+                </div>
+                <div className="service-body">
+                  <h3 className="service-title">{s.title}</h3>
+                  <p className="service-desc">{s.desc}</p>
+                  <a href="#appointment" style={{ fontSize: "0.8rem", fontWeight: 600, color: "#db2777", textDecoration: "none" }}>
                     Book Consultation <i className="fas fa-arrow-right ms-1"></i>
                   </a>
                 </div>
@@ -327,124 +346,102 @@ function Services() {
 }
 
 function Appointment() {
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    const form = formRef.current!;
-    const data = new FormData(form);
-    try {
-      const res = await fetch("https://formsubmit.co/ajax/nitinshrivastava191@gmail.com", {
-        method: "POST",
-        body: data,
-      });
-      if (res.ok) {
-        setSuccess(true);
-        form.reset();
-      }
-    } catch {
-      setSuccess(true);
-      form.reset();
-    }
-    setLoading(false);
-  };
-
+  const pageUrl = typeof window !== "undefined" ? window.location.href.split("?")[0] : "";
   return (
     <section id="appointment" className="appointment-section">
-      {success && (
-        <div className="success-overlay" onClick={() => setSuccess(false)}>
-          <div className="success-popup" onClick={(e) => e.stopPropagation()}>
-            <div style={{ fontSize: "4rem", marginBottom: "1rem" }}>🌸</div>
-            <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.5rem", color: "#1f2937", marginBottom: "0.75rem" }}>Appointment Booked!</h3>
-            <p style={{ fontSize: "0.9rem", color: "#4b5563", lineHeight: 1.6, marginBottom: "1.5rem" }}>
-              Thank you! We've received your appointment request. Our team will contact you shortly to confirm your appointment.
-            </p>
-            <button
-              onClick={() => setSuccess(false)}
-              className="btn-primary-custom"
-              style={{ margin: "0 auto" }}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
       <div className="container">
         <div className="text-center mb-5 fade-in">
           <div className="section-badge"><i className="fas fa-calendar-check"></i> Book Now</div>
           <h2 className="section-title">Book an <span>Appointment</span></h2>
-          <p className="section-desc">Take the first step towards your dream family. Fill in your details and we'll get in touch within 24 hours.</p>
+          <p className="section-desc">Fill in your details and we'll confirm your appointment within 24 hours.</p>
         </div>
-        <div className="row justify-content-center">
-          <div className="col-lg-8 fade-in">
+        <div className="row g-5 align-items-stretch">
+          <div className="col-lg-5 fade-in-left">
+            <div className="appt-info-panel">
+              <img src={clinicalImg} alt="Dr. Shabina Khan clinical session" className="appt-info-img" />
+              <h4 style={{ fontFamily: "var(--font-heading)", fontSize: "1.2rem", fontWeight: 700, margin: "1.25rem 0 0.75rem" }}>Why Book With Us?</h4>
+              {[
+                { icon: "fas fa-check-circle", text: "Free initial fertility consultation" },
+                { icon: "fas fa-check-circle", text: "Expert guidance from Dr. Shabina Khan" },
+                { icon: "fas fa-check-circle", text: "Transparent treatment costs" },
+                { icon: "fas fa-check-circle", text: "Flexible appointment timings" },
+                { icon: "fas fa-check-circle", text: "Warm, supportive environment" },
+              ].map((item) => (
+                <div key={item.text} className="d-flex align-items-center gap-2 mb-2">
+                  <i className={item.icon} style={{ color: "#db2777" }}></i>
+                  <span style={{ fontSize: "0.875rem", color: "#374151" }}>{item.text}</span>
+                </div>
+              ))}
+              <div className="mt-3 p-3" style={{ background: "#fce7f3", borderRadius: "1rem" }}>
+                <div style={{ fontSize: "0.8rem", color: "#db2777", fontWeight: 700 }}>
+                  <i className="fas fa-phone me-1"></i> Call us directly
+                </div>
+                <a href={`tel:${PHONE}`} style={{ fontSize: "1.1rem", fontWeight: 700, color: "#1f2937", textDecoration: "none" }}>
+                  {PHONE}
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-7 fade-in-right">
             <div className="form-card">
-              <form ref={formRef} onSubmit={handleSubmit}>
-                <input type="hidden" name="_subject" value="New Appointment – Sunrice IVF Center" />
+              <form
+                action={`https://formsubmit.co/${EMAIL}`}
+                method="POST"
+              >
+                <input type="hidden" name="_subject" value="New Appointment – Sunrice IVF Center Shahjahanpur" />
                 <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_next" value={`${pageUrl}#appointment`} />
+                <input type="hidden" name="_template" value="table" />
                 <div className="row g-3">
                   <div className="col-md-6">
-                    <div className="form-group-mb">
-                      <label className="form-label-custom"><i className="fas fa-user me-1" style={{ color: "#db2777" }}></i> Full Name</label>
-                      <input name="name" type="text" className="form-control-custom" placeholder="Your full name" required />
-                    </div>
+                    <label className="form-label-custom"><i className="fas fa-user me-1" style={{ color: "#db2777" }}></i> Full Name *</label>
+                    <input name="Full Name" type="text" className="form-control-custom" placeholder="Your full name" required />
                   </div>
                   <div className="col-md-6">
-                    <div className="form-group-mb">
-                      <label className="form-label-custom"><i className="fas fa-phone me-1" style={{ color: "#db2777" }}></i> Phone Number</label>
-                      <input name="phone" type="tel" className="form-control-custom" placeholder="+91 XXXXX XXXXX" required />
-                    </div>
+                    <label className="form-label-custom"><i className="fas fa-phone me-1" style={{ color: "#db2777" }}></i> Phone Number *</label>
+                    <input name="Phone Number" type="tel" className="form-control-custom" placeholder="+91 XXXXX XXXXX" required />
                   </div>
                   <div className="col-md-6">
-                    <div className="form-group-mb">
-                      <label className="form-label-custom"><i className="fas fa-envelope me-1" style={{ color: "#db2777" }}></i> Email Address</label>
-                      <input name="email" type="email" className="form-control-custom" placeholder="your@email.com" />
-                    </div>
+                    <label className="form-label-custom"><i className="fas fa-envelope me-1" style={{ color: "#db2777" }}></i> Email Address</label>
+                    <input name="Email" type="email" className="form-control-custom" placeholder="your@email.com" />
                   </div>
                   <div className="col-md-6">
-                    <div className="form-group-mb">
-                      <label className="form-label-custom"><i className="fas fa-calendar me-1" style={{ color: "#db2777" }}></i> Preferred Date</label>
-                      <input name="date" type="date" className="form-control-custom" required />
-                    </div>
+                    <label className="form-label-custom"><i className="fas fa-calendar me-1" style={{ color: "#db2777" }}></i> Preferred Date *</label>
+                    <input name="Preferred Date" type="date" className="form-control-custom" required />
                   </div>
                   <div className="col-md-6">
-                    <div className="form-group-mb">
-                      <label className="form-label-custom"><i className="fas fa-stethoscope me-1" style={{ color: "#db2777" }}></i> Service Needed</label>
-                      <select name="service" className="form-control-custom">
-                        <option value="">Select a service</option>
-                        <option>IVF Treatment</option>
-                        <option>IUI Treatment</option>
-                        <option>Fertility Consultation</option>
-                        <option>Pregnancy Care</option>
-                        <option>Infertility Diagnosis</option>
-                        <option>Women Health Care</option>
-                        <option>Other</option>
-                      </select>
-                    </div>
+                    <label className="form-label-custom"><i className="fas fa-stethoscope me-1" style={{ color: "#db2777" }}></i> Service Needed</label>
+                    <select name="Service" className="form-control-custom">
+                      <option value="">Select a service</option>
+                      <option>IVF Treatment</option>
+                      <option>IUI Treatment</option>
+                      <option>Fertility Consultation</option>
+                      <option>Pregnancy Care</option>
+                      <option>Infertility Diagnosis</option>
+                      <option>Women Health Care</option>
+                      <option>Other</option>
+                    </select>
                   </div>
                   <div className="col-md-6">
-                    <div className="form-group-mb">
-                      <label className="form-label-custom"><i className="fas fa-clock me-1" style={{ color: "#db2777" }}></i> Preferred Time</label>
-                      <select name="time" className="form-control-custom">
-                        <option value="">Select a time</option>
-                        <option>Morning (8AM – 12PM)</option>
-                        <option>Afternoon (12PM – 4PM)</option>
-                        <option>Evening (4PM – 8PM)</option>
-                      </select>
-                    </div>
+                    <label className="form-label-custom"><i className="fas fa-clock me-1" style={{ color: "#db2777" }}></i> Preferred Time</label>
+                    <select name="Preferred Time" className="form-control-custom">
+                      <option value="">Select a time</option>
+                      <option>Morning (8AM – 12PM)</option>
+                      <option>Afternoon (12PM – 4PM)</option>
+                      <option>Evening (4PM – 8PM)</option>
+                    </select>
                   </div>
                   <div className="col-12">
-                    <div className="form-group-mb">
-                      <label className="form-label-custom"><i className="fas fa-comment me-1" style={{ color: "#db2777" }}></i> Message / Concern</label>
-                      <textarea name="message" className="form-control-custom" rows={4} placeholder="Briefly describe your concern or query..." style={{ resize: "vertical" }}></textarea>
-                    </div>
+                    <label className="form-label-custom"><i className="fas fa-comment me-1" style={{ color: "#db2777" }}></i> Message / Concern</label>
+                    <textarea name="Message" className="form-control-custom" rows={4} placeholder="Briefly describe your concern or query..." style={{ resize: "vertical" }}></textarea>
                   </div>
-                  <div className="col-12 text-center">
-                    <button type="submit" className="btn-primary-custom" disabled={loading} style={{ padding: "0.9rem 3rem" }}>
-                      {loading ? <><i className="fas fa-spinner fa-spin me-2"></i>Sending…</> : <><i className="fas fa-paper-plane me-2"></i>Book Appointment</>}
+                  <div className="col-12">
+                    <button type="submit" className="btn-primary-custom w-100 justify-content-center" style={{ padding: "0.9rem 2rem" }}>
+                      <i className="fas fa-paper-plane me-2"></i> Submit Appointment Request
                     </button>
+                    <p style={{ fontSize: "0.75rem", color: "#6b7280", textAlign: "center", marginTop: "0.75rem" }}>
+                      <i className="fas fa-lock me-1"></i> Your information is private and secure. We'll contact you within 24 hours.
+                    </p>
                   </div>
                 </div>
               </form>
@@ -473,7 +470,7 @@ function Testimonials() {
           <h2 className="section-title">Families We've <span>Helped</span></h2>
           <p className="section-desc">Real stories of hope, perseverance, and the joy of parenthood from our beloved patients.</p>
         </div>
-        <div className="row g-4">
+        <div className="row g-4 mb-5">
           {reviews.map((r) => (
             <div key={r.name} className="col-md-6 col-lg-4 fade-in">
               <div className="testimonial-card">
@@ -490,6 +487,16 @@ function Testimonials() {
             </div>
           ))}
         </div>
+        <div className="clinic-review-img-row fade-in">
+          <img src={reviewsImg} alt="Dr. Shabina Khan with a happy patient" className="clinic-review-img" />
+          <div className="clinic-review-img-caption">
+            <i className="fas fa-quote-left" style={{ color: "#db2777", fontSize: "1.5rem", marginBottom: "0.5rem", display: "block" }}></i>
+            <p style={{ fontFamily: "var(--font-heading)", fontSize: "1.1rem", color: "#1f2937", fontStyle: "italic", lineHeight: 1.6 }}>
+              "Every patient who walks through our doors becomes part of our family. We don't just treat — we care."
+            </p>
+            <div style={{ fontWeight: 700, color: "#db2777", marginTop: "0.75rem" }}>— Dr. Shabina Khan</div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -498,7 +505,7 @@ function Testimonials() {
 function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
   const faqs = [
-    { q: "What is IVF and how does it work?", a: "IVF (In-Vitro Fertilisation) is a fertility treatment where eggs are retrieved from the ovaries and fertilised with sperm in a laboratory. The resulting embryos are cultured and the best one(s) are transferred to the uterus. It's recommended for couples who haven't conceived after 1-2 years of trying." },
+    { q: "What is IVF and how does it work?", a: "IVF (In-Vitro Fertilisation) is a fertility treatment where eggs are retrieved from the ovaries and fertilised with sperm in a laboratory. The resulting embryos are cultured and the best one(s) are transferred to the uterus. It is recommended for couples who haven't conceived after 1-2 years of trying." },
     { q: "What is the success rate of IVF at Sunrice?", a: "Our IVF success rate is approximately 60-70% per cycle for women under 35. Success rates depend on factors like age, egg quality, sperm quality, and the underlying cause of infertility. Dr. Shabina Khan will discuss realistic expectations during your consultation." },
     { q: "How many IVF cycles will I need?", a: "Most couples achieve success within 2-3 cycles. However, every case is unique. Some couples succeed in the first cycle, while others may require more attempts. We'll create a personalised plan based on your medical profile." },
     { q: "Is IVF treatment painful?", a: "IVF involves daily hormone injections which can cause mild discomfort. The egg retrieval procedure is done under sedation, so you won't feel pain during it. Some women experience mild bloating or cramping. Our team ensures your comfort throughout the process." },
@@ -521,7 +528,7 @@ function FAQ() {
               <div key={i} className="faq-item">
                 <button className="faq-question" onClick={() => setOpen(open === i ? null : i)}>
                   <span>{f.q}</span>
-                  <i className={`faq-icon fas fa-chevron-${open === i ? "up" : "down"}`} style={{ transform: open === i ? "rotate(0deg)" : undefined }}></i>
+                  <i className={`faq-icon fas fa-chevron-${open === i ? "up" : "down"}`}></i>
                 </button>
                 <div className={`faq-answer ${open === i ? "open" : ""}`}>{f.a}</div>
               </div>
@@ -533,48 +540,14 @@ function FAQ() {
   );
 }
 
-function Staff() {
-  const staff = [
-    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#fce7f3,#ede9fe)", name: "Sr. Nurse Kavita", role: "Head Nurse", desc: "15 years of nursing experience in reproductive medicine and patient care." },
-    { icon: "🔬", bg: "linear-gradient(135deg,#ede9fe,#dbeafe)", name: "Dr. Rahul Verma", role: "Embryologist", desc: "PhD in Embryology with expertise in ICSI, vitrification, and PGT." },
-    { icon: "👨‍💼", bg: "linear-gradient(135deg,#dbeafe,#d1fae5)", name: "Mr. Arjun Mehta", role: "Patient Coordinator", desc: "Dedicated to ensuring every patient has a smooth and stress-free experience." },
-    { icon: "👩‍💼", bg: "linear-gradient(135deg,#fef3c7,#fce7f3)", name: "Ms. Sunita Joshi", role: "Reception & Admin", desc: "Warm, helpful, and always ready to assist with appointments and queries." },
-    { icon: "🩺", bg: "linear-gradient(135deg,#d1fae5,#ede9fe)", name: "Dr. Pooja Singh", role: "Resident Doctor", desc: "Experienced in hormonal therapy and follicular monitoring for IVF patients." },
-    { icon: "💊", bg: "linear-gradient(135deg,#ffe4e6,#fce7f3)", name: "Mr. Deepak Kumar", role: "Lab Technician", desc: "Expert in hormone assays and fertility blood workups with precision and care." },
-  ];
-  return (
-    <section id="staff" className="staff-section">
-      <div className="container">
-        <div className="text-center mb-5 fade-in">
-          <div className="section-badge"><i className="fas fa-users"></i> Our Team</div>
-          <h2 className="section-title">Meet Our <span>Caring Team</span></h2>
-          <p className="section-desc">A dedicated, multidisciplinary team committed to supporting you at every step of your fertility journey.</p>
-        </div>
-        <div className="row g-4">
-          {staff.map((s) => (
-            <div key={s.name} className="col-md-6 col-lg-4 fade-in">
-              <div className="staff-card">
-                <div className="staff-avatar" style={{ background: s.bg }}>{s.icon}</div>
-                <div className="staff-name">{s.name}</div>
-                <div className="staff-role">{s.role}</div>
-                <p className="staff-desc">{s.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Gallery() {
   const items = [
-    { icon: "🏥", bg: "linear-gradient(135deg,#fce7f3,#ede9fe)", title: "IVF Laboratory", sub: "State-of-the-art embryology lab" },
-    { icon: "🔬", bg: "linear-gradient(135deg,#ede9fe,#dbeafe)", title: "Advanced Andrology", sub: "Cutting-edge semen analysis unit" },
-    { icon: "🛏️", bg: "linear-gradient(135deg,#dbeafe,#d1fae5)", title: "Recovery Suite", sub: "Comfortable post-procedure rooms" },
-    { icon: "💊", bg: "linear-gradient(135deg,#fef3c7,#fce7f3)", title: "Fertility Pharmacy", sub: "On-site medication dispensing" },
-    { icon: "🩺", bg: "linear-gradient(135deg,#d1fae5,#ede9fe)", title: "Consultation Room", sub: "Private and comfortable consultations" },
-    { icon: "🤰", bg: "linear-gradient(135deg,#ffe4e6,#fce7f3)", title: "Ultrasound Suite", sub: "High-resolution fertility scanning" },
+    { img: UNSPLASH.clinic1, title: "IVF Laboratory", sub: "State-of-the-art embryology lab" },
+    { img: UNSPLASH.clinic2, title: "Consultation Room", sub: "Private, comfortable consultations" },
+    { img: UNSPLASH.clinic3, title: "Advanced Andrology", sub: "Cutting-edge diagnostic unit" },
+    { img: UNSPLASH.about, title: "Recovery Suite", sub: "Comfortable post-procedure rooms" },
+    { img: UNSPLASH.fertility, title: "Fertility Pharmacy", sub: "On-site medication dispensing" },
+    { img: UNSPLASH.pregnancy, title: "Ultrasound Suite", sub: "High-resolution fertility scanning" },
   ];
   return (
     <section id="gallery" className="gallery-section">
@@ -582,15 +555,13 @@ function Gallery() {
         <div className="text-center mb-5 fade-in">
           <div className="section-badge"><i className="fas fa-images"></i> Gallery</div>
           <h2 className="section-title">Our <span>Clinic Facilities</span></h2>
-          <p className="section-desc">A world-class environment designed for your comfort, privacy, and best possible outcomes.</p>
+          <p className="section-desc">A world-class environment designed for your comfort, privacy, and best outcomes.</p>
         </div>
-        <div className="row g-4">
+        <div className="row g-3">
           {items.map((item) => (
-            <div key={item.title} className="col-md-6 col-lg-4 fade-in">
+            <div key={item.title} className="col-6 col-md-4 fade-in">
               <div className="gallery-item">
-                <div className="gallery-inner" style={{ background: item.bg }}>
-                  <span style={{ fontSize: "4rem" }}>{item.icon}</span>
-                </div>
+                <img src={item.img} alt={item.title} className="gallery-img" loading="lazy" />
                 <div className="gallery-overlay">
                   <div className="gallery-overlay-title">{item.title}</div>
                   <div className="gallery-overlay-sub">{item.sub}</div>
@@ -605,25 +576,7 @@ function Gallery() {
 }
 
 function Contact() {
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    const form = formRef.current!;
-    const data = new FormData(form);
-    try {
-      const res = await fetch("https://formsubmit.co/ajax/nitinshrivastava191@gmail.com", {
-        method: "POST",
-        body: data,
-      });
-      if (res.ok) { setSuccess(true); form.reset(); }
-    } catch { setSuccess(true); form.reset(); }
-    setLoading(false);
-  };
-
+  const pageUrl = typeof window !== "undefined" ? window.location.href.split("?")[0] : "";
   return (
     <section id="contact" className="contact-section">
       <div className="container">
@@ -635,12 +588,12 @@ function Contact() {
         <div className="row g-5">
           <div className="col-lg-5 fade-in-left">
             <div className="contact-info-card">
-              <h4 style={{ fontFamily: "var(--font-heading)", fontSize: "1.3rem", fontWeight: 700, marginBottom: "1.5rem" }}>Our Contact Details</h4>
+              <h4 style={{ fontFamily: "var(--font-heading)", fontSize: "1.3rem", fontWeight: 700, marginBottom: "1.5rem" }}>Contact Details</h4>
               {[
-                { icon: "fas fa-map-marker-alt", label: "Address", value: "Sunrice IVF Center, Near Civil Hospital, Shahjahanpur, Uttar Pradesh – 242001" },
-                { icon: "fas fa-phone", label: "Phone", value: "+91 98765 43210" },
-                { icon: "fas fa-envelope", label: "Email", value: "nitinshrivastava191@gmail.com" },
-                { icon: "fab fa-whatsapp", label: "WhatsApp", value: "Chat with us instantly" },
+                { icon: "fas fa-map-marker-alt", label: "Address", value: "निकट 100 फिटा मोड़, पीलीभीत बाईपास रोड बरेली, उत्तर प्रदेश" },
+                { icon: "fas fa-phone", label: "Phone", value: PHONE },
+                { icon: "fas fa-envelope", label: "Email", value: EMAIL },
+                { icon: "fab fa-whatsapp", label: "WhatsApp", value: "6307228836" },
               ].map((c) => (
                 <div key={c.label} className="contact-item">
                   <div className="contact-icon"><i className={c.icon}></i></div>
@@ -650,59 +603,63 @@ function Contact() {
                   </div>
                 </div>
               ))}
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-whatsapp d-inline-flex" style={{ marginTop: "0.5rem" }}>
-                <i className="fab fa-whatsapp"></i> WhatsApp Consultation
+              <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="btn-whatsapp d-inline-flex mt-2">
+                <i className="fab fa-whatsapp"></i> Open WhatsApp
+              </a>
+              <a href={`tel:${PHONE}`} className="btn-outline-pink d-inline-flex mt-2 ms-2">
+                <i className="fas fa-phone"></i> Call Now
               </a>
             </div>
-          </div>
-          <div className="col-lg-7 fade-in-right">
-            {success && (
-              <div style={{ background: "#d1fae5", borderRadius: "1rem", padding: "1rem 1.5rem", marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                <i className="fas fa-check-circle" style={{ color: "#059669", fontSize: "1.25rem" }}></i>
-                <span style={{ color: "#065f46", fontWeight: 600 }}>Message sent! We'll be in touch soon.</span>
-              </div>
-            )}
-            <div className="form-card">
-              <form ref={formRef} onSubmit={handleSubmit}>
-                <input type="hidden" name="_subject" value="New Contact – Sunrice IVF Center" />
-                <input type="hidden" name="_captcha" value="false" />
-                <div className="row g-3">
-                  <div className="col-md-6">
-                    <label className="form-label-custom">Name</label>
-                    <input name="name" type="text" className="form-control-custom" placeholder="Your name" required />
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label-custom">Phone</label>
-                    <input name="phone" type="tel" className="form-control-custom" placeholder="Your phone" required />
-                  </div>
-                  <div className="col-12">
-                    <label className="form-label-custom">Email</label>
-                    <input name="email" type="email" className="form-control-custom" placeholder="your@email.com" />
-                  </div>
-                  <div className="col-12">
-                    <label className="form-label-custom">Message</label>
-                    <textarea name="message" className="form-control-custom" rows={4} placeholder="How can we help you?" style={{ resize: "vertical" }} required></textarea>
-                  </div>
-                  <div className="col-12">
-                    <button type="submit" className="btn-primary-custom w-100 justify-content-center" disabled={loading}>
-                      {loading ? <><i className="fas fa-spinner fa-spin me-2"></i>Sending…</> : <><i className="fas fa-paper-plane me-2"></i>Send Message</>}
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-
             <div className="map-container mt-4">
               <iframe
                 title="Sunrice IVF Center Location"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57156.31867043551!2d79.8602!3d27.8773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399f71c2c9ab5a37%3A0x80f5df7b2e9ffcc4!2sShahjahanpur%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                 width="100%"
-                height="240"
+                height="220"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
+            </div>
+          </div>
+          <div className="col-lg-7 fade-in-right">
+            <div className="form-card">
+              <form
+                action={`https://formsubmit.co/${EMAIL}`}
+                method="POST"
+              >
+                <input type="hidden" name="_subject" value="New Contact Message – Sunrice IVF Center" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_next" value={`${pageUrl}#contact`} />
+                <input type="hidden" name="_template" value="table" />
+                <div className="row g-3">
+                  <div className="col-md-6">
+                    <label className="form-label-custom">Name *</label>
+                    <input name="Name" type="text" className="form-control-custom" placeholder="Your name" required />
+                  </div>
+                  <div className="col-md-6">
+                    <label className="form-label-custom">Phone *</label>
+                    <input name="Phone" type="tel" className="form-control-custom" placeholder="Your phone number" required />
+                  </div>
+                  <div className="col-12">
+                    <label className="form-label-custom">Email</label>
+                    <input name="Email" type="email" className="form-control-custom" placeholder="your@email.com" />
+                  </div>
+                  <div className="col-12">
+                    <label className="form-label-custom">Message *</label>
+                    <textarea name="Message" className="form-control-custom" rows={4} placeholder="How can we help you?" style={{ resize: "vertical" }} required></textarea>
+                  </div>
+                  <div className="col-12">
+                    <button type="submit" className="btn-primary-custom w-100 justify-content-center" style={{ padding: "0.9rem 2rem" }}>
+                      <i className="fas fa-paper-plane me-2"></i> Send Message
+                    </button>
+                    <p style={{ fontSize: "0.75rem", color: "#6b7280", textAlign: "center", marginTop: "0.75rem" }}>
+                      <i className="fas fa-lock me-1"></i> Your information is private and secure.
+                    </p>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -711,18 +668,40 @@ function Contact() {
   );
 }
 
+function Staff() {
+  const staff = [
+    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#fce7f3,#ede9fe)", name: "Sr. Nurse Kavita", role: "Head Nurse", desc: "15 years of nursing experience in reproductive medicine and patient care." },
+    { icon: "🔬", bg: "linear-gradient(135deg,#ede9fe,#dbeafe)", name: "Dr. Rahul Verma", role: "Senior Embryologist", desc: "PhD in Embryology with expertise in ICSI, vitrification, and PGT." },
+    { icon: "👨‍💼", bg: "linear-gradient(135deg,#dbeafe,#d1fae5)", name: "Mr. Arjun Mehta", role: "Patient Coordinator", desc: "Dedicated to ensuring every patient has a smooth, stress-free experience." },
+    { icon: "👩‍💼", bg: "linear-gradient(135deg,#fef3c7,#fce7f3)", name: "Ms. Sunita Joshi", role: "Reception & Admin", desc: "Warm and helpful — always ready to assist with appointments and queries." },
+  ];
+  return (
+    <section id="staff" className="staff-section">
+      <div className="container">
+        <div className="text-center mb-5 fade-in">
+          <div className="section-badge"><i className="fas fa-users"></i> Our Team</div>
+          <h2 className="section-title">Meet Our <span>Caring Team</span></h2>
+          <p className="section-desc">A dedicated multidisciplinary team committed to your fertility journey.</p>
+        </div>
+        <div className="row g-4">
+          {staff.map((s) => (
+            <div key={s.name} className="col-sm-6 col-lg-3 fade-in">
+              <div className="staff-card">
+                <div className="staff-avatar" style={{ background: s.bg }}>{s.icon}</div>
+                <div className="staff-name">{s.name}</div>
+                <div className="staff-role">{s.role}</div>
+                <p className="staff-desc">{s.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   const year = new Date().getFullYear();
-  const links = [
-    ["Home", "#home"],
-    ["About Us", "#about"],
-    ["Services", "#services"],
-    ["Doctor", "#doctor"],
-    ["Testimonials", "#testimonials"],
-    ["FAQ", "#faq"],
-    ["Gallery", "#gallery"],
-    ["Contact", "#contact"],
-  ];
   return (
     <footer className="footer">
       <div className="container">
@@ -735,11 +714,11 @@ function Footer() {
             <p className="footer-desc">Shahjahanpur's most trusted fertility centre — bringing hope, science, and compassion together for every family's journey to parenthood.</p>
             <div className="social-icons">
               {[
-                ["fab fa-facebook-f", "https://facebook.com"],
-                ["fab fa-instagram", "https://instagram.com"],
-                ["fab fa-youtube", "https://youtube.com"],
-                ["fab fa-whatsapp", WHATSAPP_URL],
-              ].map(([icon, href]) => (
+                { icon: "fab fa-facebook-f", href: "https://facebook.com" },
+                { icon: "fab fa-instagram", href: "https://instagram.com" },
+                { icon: "fab fa-youtube", href: "https://youtube.com" },
+                { icon: "fab fa-whatsapp", href: WA_URL },
+              ].map(({ icon, href }) => (
                 <a key={icon} href={href} className="social-icon" target="_blank" rel="noopener noreferrer">
                   <i className={icon}></i>
                 </a>
@@ -748,24 +727,24 @@ function Footer() {
           </div>
           <div className="col-6 col-lg-2">
             <div className="footer-heading">Quick Links</div>
-            {links.slice(0, 5).map(([label, href]) => (
-              <a key={label} href={href} className="footer-link">{label}</a>
+            {[["Home","#home"],["About","#about"],["Doctor","#doctor"],["Services","#services"],["Contact","#contact"]].map(([l,h]) => (
+              <a key={l} href={h} className="footer-link">{l}</a>
             ))}
           </div>
           <div className="col-6 col-lg-2">
             <div className="footer-heading">Services</div>
-            {["IVF Treatment", "IUI Treatment", "Fertility Consult", "Pregnancy Care", "Women Health"].map((s) => (
+            {["IVF Treatment","IUI Treatment","Fertility Consult","Pregnancy Care","Women Health"].map((s) => (
               <a key={s} href="#services" className="footer-link">{s}</a>
             ))}
           </div>
           <div className="col-lg-4">
             <div className="footer-heading">Contact Information</div>
             {[
-              ["fas fa-map-marker-alt", "Near Civil Hospital, Shahjahanpur, UP – 242001"],
-              ["fas fa-phone", "+91 98765 43210"],
-              ["fas fa-envelope", "nitinshrivastava191@gmail.com"],
-              ["fas fa-clock", "Mon–Fri: 8AM–8PM | Sat: 9AM–6PM"],
-            ].map(([icon, text]) => (
+              { icon: "fas fa-map-marker-alt", text: "निकट 100 फिटा मोड़, पीलीभीत बाईपास रोड बरेली, उत्तर प्रदेश" },
+              { icon: "fas fa-phone", text: PHONE },
+              { icon: "fas fa-envelope", text: EMAIL },
+              { icon: "fas fa-clock", text: "Mon–Fri: 8AM–8PM | Sat: 9AM–6PM" },
+            ].map(({ icon, text }) => (
               <div key={text} className="footer-contact-item">
                 <i className={icon}></i>
                 <span>{text}</span>
@@ -791,7 +770,7 @@ function FloatingButtons() {
   }, []);
   return (
     <>
-      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="float-whatsapp" title="WhatsApp Consultation">
+      <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="float-whatsapp" title="WhatsApp Consultation">
         <i className="fab fa-whatsapp"></i>
       </a>
       <button
@@ -815,18 +794,17 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    if (!loaderDone) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
+          if (entry.isIntersecting) entry.target.classList.add("visible");
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
-    const elements = document.querySelectorAll(".fade-in, .fade-in-left, .fade-in-right");
-    elements.forEach((el) => observer.observe(el));
+    const els = document.querySelectorAll(".fade-in, .fade-in-left, .fade-in-right");
+    els.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, [loaderDone]);
 
