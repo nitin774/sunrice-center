@@ -24,12 +24,14 @@ const UNSPLASH = {
 };
 
 /* ─────────────────────────────────────────────────────────
-   AJAX form hook — POSTs to FormSubmit JSON endpoint.
-   First-ever submission triggers a one-time confirmation
-   email to nitinshrivastava191@gmail.com. Click the link
-   in that email once, then all future submissions deliver.
+   Google Apps Script form hook.
+   Uses Content-Type: text/plain to bypass CORS preflight.
+   All three forms route to the same GAS Web App endpoint.
 ───────────────────────────────────────────────────────── */
-function useAjaxForm(subject: string) {
+const GAS_URL =
+  "https://script.google.com/macros/s/AKfycbyKcSUgy0HEb0RhxiJNYpPJwBfS1qMJvQhu21u2xDLiSvv8YaP44samY0QgG9D7YIM/exec";
+
+function useAjaxForm(formType: string) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,22 +40,19 @@ function useAjaxForm(subject: string) {
     setStatus("loading");
 
     const data = new FormData(form);
-    const payload: Record<string, string> = { _subject: subject, _template: "table", _captcha: "false" };
+    const payload: Record<string, string> = { formType };
     data.forEach((v, k) => { payload[k] = v.toString(); });
 
     try {
-      const res = await fetch(`https://formsubmit.co/ajax/${EMAIL}`, {
+      await fetch(GAS_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        // text/plain avoids the CORS preflight OPTIONS request that Google Script blocks
+        headers: { "Content-Type": "text/plain" },
         body: JSON.stringify(payload),
       });
-      const json = await res.json();
-      if (json.success === "true" || json.success === true) {
-        setStatus("success");
-        form.reset();
-      } else {
-        setStatus("error");
-      }
+      // GAS always returns 200 (even for redirects); treat any response as success
+      setStatus("success");
+      form.reset();
     } catch {
       setStatus("error");
     }
@@ -482,7 +481,7 @@ function FormError({ onClose }: { onClose: () => void }) {
 
 /* ──────────────────── Appointment Form ──────────────────── */
 function Appointment() {
-  const { status, setStatus, handleSubmit } = useAjaxForm("New Appointment – Sunrice IVF Center Shahjahanpur");
+  const { status, setStatus, handleSubmit } = useAjaxForm("appointment");
 
   return (
     <section id="appointment" className="appointment-section">
@@ -525,23 +524,23 @@ function Appointment() {
                 <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label-custom"><i className="fas fa-user me-1 pink" /> Full Name *</label>
-                    <input name="Full Name" type="text" className="form-control-custom" placeholder="Your full name" required />
+                    <input name="fullName" type="text" className="form-control-custom" placeholder="Your full name" required />
                   </div>
                   <div className="form-group">
                     <label className="form-label-custom"><i className="fas fa-phone me-1 pink" /> Phone Number *</label>
-                    <input name="Phone Number" type="tel" className="form-control-custom" placeholder="+91 XXXXX XXXXX" required />
+                    <input name="phoneNumber" type="tel" className="form-control-custom" placeholder="+91 XXXXX XXXXX" required />
                   </div>
                   <div className="form-group">
                     <label className="form-label-custom"><i className="fas fa-envelope me-1 pink" /> Email</label>
-                    <input name="Email" type="email" className="form-control-custom" placeholder="your@email.com" />
+                    <input name="email" type="email" className="form-control-custom" placeholder="your@email.com" />
                   </div>
                   <div className="form-group">
                     <label className="form-label-custom"><i className="fas fa-calendar me-1 pink" /> Preferred Date *</label>
-                    <input name="Preferred Date" type="date" className="form-control-custom" required />
+                    <input name="preferredDate" type="date" className="form-control-custom" required />
                   </div>
                   <div className="form-group">
                     <label className="form-label-custom"><i className="fas fa-stethoscope me-1 pink" /> Service Needed</label>
-                    <select name="Service" className="form-control-custom">
+                    <select name="serviceNeeded" className="form-control-custom">
                       <option value="">Select a service</option>
                       <option>IVF Treatment</option>
                       <option>IUI Treatment</option>
@@ -554,7 +553,7 @@ function Appointment() {
                   </div>
                   <div className="form-group">
                     <label className="form-label-custom"><i className="fas fa-clock me-1 pink" /> Preferred Time</label>
-                    <select name="Preferred Time" className="form-control-custom">
+                    <select name="preferredTime" className="form-control-custom">
                       <option value="">Select a time</option>
                       <option>Morning (8AM – 12PM)</option>
                       <option>Afternoon (12PM – 4PM)</option>
@@ -563,7 +562,7 @@ function Appointment() {
                   </div>
                   <div className="form-group form-full">
                     <label className="form-label-custom"><i className="fas fa-comment me-1 pink" /> Message / Concern</label>
-                    <textarea name="Message" className="form-control-custom" rows={3} placeholder="Briefly describe your concern..." style={{ resize: "vertical" }} />
+                    <textarea name="messageConcern" className="form-control-custom" rows={3} placeholder="Briefly describe your concern..." style={{ resize: "vertical" }} />
                   </div>
                   <div className="form-group form-full">
                     <button type="submit" className="btn-primary-custom btn-full" disabled={status === "loading"}>
@@ -631,7 +630,7 @@ function Testimonials() {
 
 /* ──────────────────── Patient Review Submission ──────────────────── */
 function LeaveReview() {
-  const { status, setStatus, handleSubmit } = useAjaxForm("New Patient Review – Sunrice IVF Center");
+  const { status, setStatus, handleSubmit } = useAjaxForm("review");
 
   return (
     <section id="leave-review" className="leave-review-section">
@@ -649,15 +648,15 @@ function LeaveReview() {
               <div className="form-grid">
                 <div className="form-group">
                   <label className="form-label-custom"><i className="fas fa-user me-1 pink" /> Your Name *</label>
-                  <input name="Patient Name" type="text" className="form-control-custom" placeholder="Your full name" required />
+                  <input name="yourName" type="text" className="form-control-custom" placeholder="Your full name" required />
                 </div>
                 <div className="form-group">
                   <label className="form-label-custom"><i className="fas fa-map-marker-alt me-1 pink" /> City / Location *</label>
-                  <input name="City" type="text" className="form-control-custom" placeholder="e.g. Shahjahanpur" required />
+                  <input name="cityLocation" type="text" className="form-control-custom" placeholder="e.g. Shahjahanpur" required />
                 </div>
                 <div className="form-group">
                   <label className="form-label-custom"><i className="fas fa-stethoscope me-1 pink" /> Treatment Received</label>
-                  <select name="Treatment" className="form-control-custom">
+                  <select name="treatmentReceived" className="form-control-custom">
                     <option value="">Select treatment</option>
                     <option>IVF Treatment</option>
                     <option>IUI Treatment</option>
@@ -670,7 +669,7 @@ function LeaveReview() {
                 </div>
                 <div className="form-group">
                   <label className="form-label-custom"><i className="fas fa-star me-1 pink" /> Your Rating *</label>
-                  <select name="Rating" className="form-control-custom" required>
+                  <select name="yourRating" className="form-control-custom" required>
                     <option value="">Select rating</option>
                     <option>⭐⭐⭐⭐⭐ (5 – Excellent)</option>
                     <option>⭐⭐⭐⭐ (4 – Very Good)</option>
@@ -681,7 +680,7 @@ function LeaveReview() {
                 </div>
                 <div className="form-group form-full">
                   <label className="form-label-custom"><i className="fas fa-comment-dots me-1 pink" /> Your Story / Review *</label>
-                  <textarea name="Review" className="form-control-custom" rows={4} placeholder="Share your experience — how did Sunrice IVF Center help you?" style={{ resize: "vertical" }} required />
+                  <textarea name="yourStoryReview" className="form-control-custom" rows={4} placeholder="Share your experience — how did Sunrice IVF Center help you?" style={{ resize: "vertical" }} required />
                 </div>
                 <div className="form-group form-full">
                   <button type="submit" className="btn-primary-custom btn-full" disabled={status === "loading"}>
@@ -802,7 +801,7 @@ function Staff() {
 
 /* ──────────────────── Contact ──────────────────── */
 function Contact() {
-  const { status, setStatus, handleSubmit } = useAjaxForm("New Contact Message – Sunrice IVF Center");
+  const { status, setStatus, handleSubmit } = useAjaxForm("contact");
 
   return (
     <section id="contact" className="contact-section">
@@ -856,19 +855,19 @@ function Contact() {
                 <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label-custom">Name *</label>
-                    <input name="Name" type="text" className="form-control-custom" placeholder="Your name" required />
+                    <input name="name" type="text" className="form-control-custom" placeholder="Your name" required />
                   </div>
                   <div className="form-group">
                     <label className="form-label-custom">Phone *</label>
-                    <input name="Phone" type="tel" className="form-control-custom" placeholder="Your phone number" required />
+                    <input name="phone" type="tel" className="form-control-custom" placeholder="Your phone number" required />
                   </div>
                   <div className="form-group form-full">
                     <label className="form-label-custom">Email</label>
-                    <input name="Email" type="email" className="form-control-custom" placeholder="your@email.com" />
+                    <input name="email" type="email" className="form-control-custom" placeholder="your@email.com" />
                   </div>
                   <div className="form-group form-full">
                     <label className="form-label-custom">Message *</label>
-                    <textarea name="Message" className="form-control-custom" rows={5} placeholder="How can we help you?" style={{ resize: "vertical" }} required />
+                    <textarea name="message" className="form-control-custom" rows={5} placeholder="How can we help you?" style={{ resize: "vertical" }} required />
                   </div>
                   <div className="form-group form-full">
                     <button type="submit" className="btn-primary-custom btn-full" disabled={status === "loading"}>
