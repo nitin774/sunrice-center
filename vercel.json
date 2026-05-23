@@ -1,0 +1,10 @@
+{
+  "buildCommand": "pnpm --filter @workspace/ivf-website run build",
+  "outputDirectory": "artifacts/ivf-website/dist/public",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "framework": null,
+  "env": {
+    "PORT": "3000",
+    "BASE_PATH": "/"
+  }
+}
