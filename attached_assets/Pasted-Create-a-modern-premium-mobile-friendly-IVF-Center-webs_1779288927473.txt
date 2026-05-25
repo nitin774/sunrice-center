@@ -1,0 +1,131 @@
+Create a modern, premium, mobile-friendly IVF Center website for “Sunrice IVF Center Shahjahanpur” using only HTML, CSS, JavaScript, Bootstrap 5, and Tailwind CSS.
+
+Website Theme:
+- Elegant medical healthcare design
+- Soft white, pink, blue, and lavender color palette
+- Professional IVF/Fertility clinic appearance
+- Smooth animations and modern UI
+- Fully responsive for mobile, tablet, and desktop
+- Attractive loading screen (page loader)
+- IVF-related favicon/logo icon
+- Sticky navigation bar
+- Smooth scrolling navigation
+
+Clinic Details:
+- Clinic Name: Sunrice IVF Center Shahjahanpur
+- Doctor Name: Dr. Shabina Khan
+- Contact Email: nitinshrivastava191@gmail.com
+- Include WhatsApp consultation button floating on screen
+- Add Google Maps section with clinic location
+- Add clinic timings section
+
+Required Sections:
+1. Hero Section
+   - Beautiful IVF healthcare banner
+   - Heading:
+     “Welcome to Sunrice IVF Center Shahjahanpur”
+   - Subheading:
+     “Advanced Fertility & IVF Care with Compassion”
+   - CTA Buttons:
+     - Book Appointment
+     - WhatsApp Consultation
+
+2. About Us Section
+   - Information about fertility treatments
+   - IVF center mission and vision
+   - Why choose the clinic
+
+3. Doctor Section
+   - Doctor profile card for Dr. Shabina Khan
+   - Qualification
+   - Experience
+   - Specialization
+   - Doctor image placeholder
+
+4. Services Section
+   Include modern cards for:
+   - IVF Treatment
+   - IUI Treatment
+   - Fertility Consultation
+   - Pregnancy Care
+   - Infertility Diagnosis
+   - Women Health Care
+
+5. Appointment Booking Section
+   Create a professional appointment form with:
+   - Full Name
+   - Phone Number
+   - Email
+   - Date
+   - Message
+   - Submit Button
+
+   IMPORTANT:
+   When the form is submitted:
+   - Send details to:
+     nitinshrivastava191@gmail.com
+   - Use EmailJS or FormSubmit integration
+   - Show success popup message
+
+6. Contact Us Section
+   Include:
+   - Contact form
+   - Phone number
+   - Email
+   - Address
+   - WhatsApp button
+   - Google Maps embed
+
+7. Patient Reviews/Testimonial Section
+   Add animated review cards from patients.
+
+8. FAQ Section
+   Add IVF-related frequently asked questions with accordion effect.
+
+9. Our Staff Section
+   Create cards for:
+   - Nurses
+   - Embryologists
+   - Support Staff
+   - Reception Team
+
+10. Gallery Section
+   Add clinic image placeholders with hover effects.
+
+11. Footer Section
+   Include:
+   - Quick Links
+   - Contact Details
+   - Social Media Icons
+   - Copyright
+
+Features Required:
+- Bootstrap + Tailwind combined styling
+- Mobile-first responsive design
+- Smooth hover effects
+- Animated counters/statistics
+- Scroll animations
+- WhatsApp floating button
+- Back-to-top button
+- SEO-friendly structure
+- Clean and professional code
+- Modern glassmorphism cards
+- Lazy loading images
+- Attractive typography
+
+Technical Requirements:
+- Use Bootstrap CDN
+- Use Tailwind CDN
+- Use Font Awesome icons
+- Use JavaScript for animations and interactions
+- Use EmailJS or FormSubmit for sending forms to email
+- Use only frontend technologies (HTML/CSS/JS)
+
+Extra:
+- Add IVF-themed healthcare images/placeholders
+- Add loading animation before website loads
+- Add favicon related to healthcare/IVF
+- Add subtle background gradients
+- Make website look premium and trustworthy
+
+Generate complete production-ready code in one HTML file with internal CSS and JavaScript.

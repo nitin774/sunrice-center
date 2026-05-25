@@ -1,0 +1,33 @@
+I have a Next.js webpage with 3 different forms: "Contact Us", "Book Appointment", and "Leave a Review". 
+
+I want to connect all 3 forms to a single Google Apps Script Web App URL. 
+
+CRITICAL REQUIREMENT: Do NOT alter, modify, remove, or break any of my existing HTML structures, component layouts, UI elements, or Tailwind CSS designs. Only update or inject the form submission JavaScript/TypeScript handlers (`onSubmit` logic).
+
+Please route all form data to this exact Google Script URL:
+"https://script.google.com/macros/s/AKfycbyKcSUgy0HEb0RhxiJNYpPJwBfS1qMJvQhu21u2xDLiSvv8YaP44samY0QgG9D7YIM/exec"
+
+Configure the handlers for each form precisely as follows:
+
+1. For the "Contact Us" form:
+- Prevent the default page reload behavior on submit.
+- Construct a JSON payload with an explicit form identifier: `formType: "contact"`.
+- Map the input fields to these exact keys: `name`, `phone`, `email`, `message`.
+- Send the data via a `fetch` POST request. Set headers to `'Content-Type': 'text/plain'` to prevent Google Script CORS preflight issues.
+- If successful, clear the form inputs and trigger a success alert.
+
+2. For the "Book Appointment" form:
+- Prevent default page reload on submit.
+- Construct a JSON payload with an explicit form identifier: `formType: "appointment"`.
+- Map the input fields to these exact keys: `fullName`, `phoneNumber`, `email`, `preferredDate`, `serviceNeeded`, `preferredTime`, `messageConcern`.
+- Send via `fetch` POST with `'Content-Type': 'text/plain'`.
+- On success, clear the form inputs and trigger a success alert.
+
+3. For the "Leave a Review" form:
+- Prevent default page reload on submit.
+- Construct a JSON payload with an explicit form identifier: `formType: "review"`.
+- Map the input fields to these exact keys: `yourName`, `cityLocation`, `treatmentReceived`, `yourRating`, `yourStoryReview`.
+- Send via `fetch` POST with `'Content-Type': 'text/plain'`.
+- On success, clear the form inputs and trigger a success alert.
+
+Important Note: Ensure that empty or optional fields do not block submission; let the frontend capture whatever the user fills or leaves blank. Add proper try/catch blocks for clean error handling.

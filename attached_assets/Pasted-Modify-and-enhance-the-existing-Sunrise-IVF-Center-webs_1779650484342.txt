@@ -1,0 +1,189 @@
+Modify and enhance the existing Sunrise IVF Center website without changing the overall design theme, responsiveness, animations, or layout structure. Keep the current modern premium IVF clinic style, but apply the following updates carefully and professionally.
+
+========================
+REMOVE / CHANGE CONTENT
+========================
+
+1. Remove the line:
+"ICMR Registered IVF Center"
+
+2. Replace every occurrence of:
+"98% IVF Success Rate"
+or any percentage-based IVF success text
+
+WITH:
+"High Success Rate"
+
+Do not show any percentage numbers related to IVF success anywhere on the site.
+
+========================
+DOCTOR SECTION UPDATE
+========================
+
+Create a premium modern Doctors Section with cards, hover effects, responsive layout, and soft shadows.
+
+Use these doctors and details:
+
+1. Dr. Shabina Khan
+Qualification:
+MBBS, MS Obstetrics and Gynaecology
+Role:
+Senior IVF Specialist & Director
+
+Use professional female doctor styling.
+Use the provided image for Dr Shabina Khan.
+
+2. Dr. Rehan
+Qualification:
+MBBS, Anesthesiologist
+Role:
+Anesthesia & Critical Care Specialist
+
+Use the uploaded image of Dr Rehan.
+
+3. Dr. Minal Sharma
+Qualification:
+Embryologist
+Role:
+Senior Embryology Expert
+
+Do NOT use a real image.
+Use a premium medical female avatar illustration/profile image instead.
+
+Add smooth animations and mobile responsive doctor cards.
+
+========================
+STAFF SECTION UPDATE
+========================
+
+Create or update a Staff Section with elegant cards.
+
+Include:
+
+• Dr. Eram Warsi — BAMS, DGO
+• Dr. Urvashi Yadav
+• Dr. Talat Naaz
+
+Use clean modern UI.
+
+========================
+CONTACT INFORMATION UPDATE
+========================
+
+Replace all old contact details everywhere on the site with:
+
+Phone Numbers:
+8279612861
+8279683949
+
+Use both numbers in:
+- Contact section
+- Footer
+- Floating call buttons
+- Appointment forms
+
+WhatsApp Consultation Number:
+8279612861
+
+Email:
+sunriseshahjahanpur@gmail.com
+
+========================
+MAP LOCATION UPDATE
+========================
+
+Replace old map/location with this live Google Maps location:
+
+https://maps.app.goo.gl/2pTCzudTQX1qamH66
+
+Embed the map properly in Contact Section.
+
+========================
+SOCIAL MEDIA UPDATE
+========================
+
+Facebook:
+https://www.facebook.com/profile.php?id=61588657432206&sk=reels_tab
+
+Instagram:
+https://www.instagram.com/sunrise_ivf_shahjahanpur?igsh=bnRudnowajM4aDFl
+
+Update:
+- Footer social icons
+- Header social links
+- Contact section social buttons
+
+Open links in new tabs.
+
+========================
+LAB / GALLERY SECTION UPDATE
+========================
+
+Use the uploaded machine images as:
+- IVF Lab Images
+- Advanced Technology Showcase
+- Fertility Equipment Gallery
+
+Create a modern responsive gallery section with:
+- hover zoom
+- lightbox preview
+- glassmorphism cards
+- smooth transitions
+
+Use:
+- ultrasound machine image
+- IUI workstation image
+- embryology machine images
+- lab equipment images
+
+Add headings like:
+“Advanced Fertility Technology”
+“Modern Embryology Lab”
+“State-of-the-Art IVF Equipment”
+
+========================
+UI / DESIGN IMPROVEMENTS
+========================
+
+Maintain premium fertility clinic aesthetic.
+
+Use:
+- Tailwind CSS
+- Bootstrap if already used
+- soft gradients
+- rounded cards
+- glassmorphism effects
+- smooth scrolling
+- animation on scroll
+- mobile-first responsive layout
+
+Improve:
+- spacing
+- typography
+- CTA buttons
+- section transitions
+- image optimization
+- mobile menu
+
+========================
+SEO & PERFORMANCE
+========================
+
+Add/update:
+- meta title
+- meta description
+- Open Graph tags
+- favicon
+- lazy loading for images
+- accessibility labels
+
+SEO Title:
+Sunrise IVF Center Shahjahanpur | Fertility & IVF Specialist
+
+========================
+FINAL REQUIREMENT
+========================
+
+Do NOT rebuild the entire website from scratch.
+
+Only modify and enhance the existing website professionally while preserving the current design language and responsiveness.
