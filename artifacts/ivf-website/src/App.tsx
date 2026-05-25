@@ -6,6 +6,7 @@ import reviewsImg from "@assets/reviews_1779296683360.jpeg";
 import clinicalImg from "@assets/oardefault_1779296683359.jpg";
 import drShabinaNewImg from "@assets/dr_shabina_khan_1779712349240.PNG";
 import drKhanImg from "@assets/dr_khan_1779712370826.PNG";
+import avatarImg from "@assets/avatar_1779713189931.png";
 import ultrasoundImg from "@assets/ultrasound_1779650535242.jpeg";
 import iuiWorkstationImg from "@assets/I_U_I_work_station_1779650535243.jpeg";
 import machineImg from "@assets/mechine_1779650535243.jpeg";
@@ -21,7 +22,7 @@ const FB_URL = "https://www.facebook.com/profile.php?id=61588657432206&sk=reels_
 const IG_URL = "https://www.instagram.com/sunrise_ivf_shahjahanpur?igsh=bnRudnowajM4aDFl";
 const MAPS_LINK = "https://maps.app.goo.gl/2pTCzudTQX1qamH66";
 const MAPS_EMBED = "https://www.google.com/maps?q=Sunrise+IVF+Centre+Azizganj+Shahjahanpur+Uttar+Pradesh+242001&output=embed";
-const FEMALE_AVATAR = "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80&auto=format&fit=crop&face=true";
+const FEMALE_AVATAR = avatarImg;
 
 const UNSPLASH = {
   hero: "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=1200&q=80&auto=format&fit=crop",
@@ -834,7 +835,6 @@ function Gallery() {
         <div className="gallery-grid">
           {items.map((item) => (
             <div key={item.title} className="gallery-item fade-in" onClick={() => setLightbox(item)} style={{ cursor: "pointer", position: "relative" }}>
-              <div style={{ position: "absolute", top: "0.6rem", left: "0.6rem", zIndex: 2, background: "rgba(0,0,0,0.65)", color: "white", fontWeight: 700, fontSize: "0.85rem", width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "1.5px solid rgba(255,255,255,0.4)" }}>{item.num}</div>
               <img src={item.img} alt={item.title} className="gallery-img" loading="lazy" />
               <div className="gallery-overlay">
                 <div className="gallery-overlay-title">{item.title}</div>
