@@ -4,6 +4,8 @@ import drShabinaImg from "@assets/dr_shabina_khan_1779703319427.webp";
 import drRehanImg from "@assets/dr_rehan_1779703276874.jpeg";
 import reviewsImg from "@assets/reviews_1779296683360.jpeg";
 import clinicalImg from "@assets/oardefault_1779296683359.jpg";
+import drShabinaNewImg from "@assets/dr_shabina_khan_1779712349240.PNG";
+import drKhanImg from "@assets/dr_khan_1779712370826.PNG";
 import ultrasoundImg from "@assets/ultrasound_1779650535242.jpeg";
 import iuiWorkstationImg from "@assets/I_U_I_work_station_1779650535243.jpeg";
 import machineImg from "@assets/mechine_1779650535243.jpeg";
@@ -18,7 +20,7 @@ const PHONE2 = "8279683949";
 const FB_URL = "https://www.facebook.com/profile.php?id=61588657432206&sk=reels_tab";
 const IG_URL = "https://www.instagram.com/sunrise_ivf_shahjahanpur?igsh=bnRudnowajM4aDFl";
 const MAPS_LINK = "https://maps.app.goo.gl/2pTCzudTQX1qamH66";
-const MAPS_EMBED = "https://www.google.com/maps?q=Sunrise+IVF+Center+Shahjahanpur+Pilibhit+Road+Uttar+Pradesh&output=embed";
+const MAPS_EMBED = "https://www.google.com/maps?q=Sunrise+IVF+Centre+Azizganj+Shahjahanpur+Uttar+Pradesh+242001&output=embed";
 const FEMALE_AVATAR = "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80&auto=format&fit=crop&face=true";
 
 const UNSPLASH = {
@@ -271,7 +273,6 @@ function Counters() {
             <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>☀️</div>
             <div style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "1.1rem", color: "#1f2937", marginBottom: "1rem" }}>Trust Indicators</div>
             {[
-              "ISO 9001:2015 Certified Clinic",
               "FOGSI Member · Advanced Embryology Lab",
               "15+ Years of Excellence in Fertility Care",
             ].map((item) => (
@@ -309,7 +310,7 @@ function About() {
         <div className="two-col-grid">
           <div className="fade-in-left">
             <div className="about-img-wrapper">
-              <img src={reviewsImg} alt="Dr. Shabina Khan consulting a patient" className="about-main-img" />
+              <img src={drShabinaNewImg} alt="Dr. Shabina Khan consulting a patient" className="about-main-img" />
               <div className="about-img-badge">
                 <i className="fas fa-heart" style={{ color: "#db2777", fontSize: "1.25rem" }} />
                 <div>
@@ -338,7 +339,7 @@ function About() {
                 </div>
               ))}
             </div>
-            {["ISO 9001:2015 Certified Clinic", "FOGSI Member · Advanced Embryology Lab", "15+ Years of Excellence in Fertility Care", "Expert Multidisciplinary Medical Team"].map((item) => (
+            {["FOGSI Member · Advanced Embryology Lab", "15+ Years of Excellence in Fertility Care", "Expert Multidisciplinary Medical Team"].map((item) => (
               <div key={item} className="check-row">
                 <i className="fas fa-check-circle" style={{ color: "#db2777" }} />
                 <span style={{ fontSize: "0.9rem", color: "#374151" }}>{item}</span>
@@ -585,7 +586,7 @@ function Appointment() {
 
         <div className="appt-grid">
           <div className="appt-info-panel fade-in-left">
-            <img src={clinicalImg} alt="Sunrise IVF Center clinical session" className="appt-info-img" />
+            <img src={drKhanImg} alt="Dr. Shabina Khan with patient" className="appt-info-img" />
             <h4 className="appt-info-heading">Why Book With Us?</h4>
             {[
               "Free initial fertility consultation",
@@ -683,7 +684,7 @@ function Testimonials() {
           <p className="section-desc">Real stories of hope, perseverance, and the joy of parenthood from our beloved patients.</p>
         </div>
         <div className="clinic-review-row fade-in">
-          <img src={reviewsImg} alt="Dr. Shabina Khan with a happy patient" className="clinic-review-img" />
+          <img src={drKhanImg} alt="Dr. Shabina Khan with a patient" className="clinic-review-img" />
           <div className="clinic-review-caption">
             <i className="fas fa-quote-left" style={{ color: "#db2777", fontSize: "1.5rem", display: "block", marginBottom: "0.75rem" }} />
             <p style={{ fontFamily: "var(--font-heading)", fontSize: "1.05rem", color: "#1f2937", fontStyle: "italic", lineHeight: 1.65 }}>
@@ -937,7 +938,7 @@ function Contact() {
             <div className="contact-info-card">
               <h4 style={{ fontFamily: "var(--font-heading)", fontSize: "1.2rem", fontWeight: 700, marginBottom: "1.5rem" }}>Contact Details</h4>
               {[
-                { icon: "fas fa-map-marker-alt", label: "Address", value: "Pilibhit Bypass Road, Shahjahanpur, Uttar Pradesh" },
+                { icon: "fas fa-map-marker-alt", label: "Address", value: "Sunrise IVF Centre, near Punjabi Choola, Azizganj, Shahjahanpur, Uttar Pradesh 242001" },
                 { icon: "fas fa-phone", label: "Phone", value: `${PHONE} / ${PHONE2}` },
                 { icon: "fas fa-envelope", label: "Email", value: EMAIL },
                 { icon: "fab fa-whatsapp", label: "WhatsApp", value: PHONE },
@@ -1077,7 +1078,7 @@ function Footer() {
             <div className="footer-heading">Contact Us</div>
             <div className="footer-contact-item">
               <i className="fas fa-map-marker-alt" />
-              <span>Pilibhit Bypass Road, Shahjahanpur, Uttar Pradesh</span>
+              <span>Sunrise IVF Centre, near Punjabi Choola, Azizganj, Shahjahanpur, Uttar Pradesh 242001</span>
             </div>
             <div className="footer-contact-item">
               <i className="fas fa-phone" />

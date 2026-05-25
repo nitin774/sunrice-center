@@ -1,0 +1,100 @@
+Modify the existing Sunrise IVF Center website professionally without changing the overall design, responsiveness, animations, or theme. Apply the following updates carefully.
+
+========================
+REMOVE CONTENT
+========================
+
+1. Remove this line completely from the website:
+"ISO 9001:2015 Certified Clinic"
+
+2. In the machine/lab gallery section, remove any visible numbers, labels, serial numbers, or text appearing on the machine images if possible using image editing or overlays.
+
+========================
+ADDRESS UPDATE
+========================
+
+Replace the old address everywhere on the website with:
+
+"Sunrise IVF Centre, near Punjabi Choola, Azizganj, Azeezganj, Shahjahanpur, Uttar Pradesh 242001"
+
+Update this address in:
+- Contact Section
+- Footer
+- Google Map Section
+- Appointment Section
+- Mobile Contact Area
+
+========================
+DOCTOR IMAGE REPLACEMENTS
+========================
+
+1. In screenshot "337.jpg":
+Remove the current image of Dr. Minal Sharma.
+
+Instead, use:
+- A professional animated female medical character/avatar
+- Modern doctor illustration style
+- Premium medical UI appearance
+- Soft gradient background
+- White coat and stethoscope
+
+Do NOT use a real person image.
+
+------------------------
+
+2. In screenshot "336.jpg":
+Remove the current doctor image.
+
+Replace it with:
+"dr shabina khan.png"
+
+Use:
+- Proper image fit
+- Rounded corners
+- Responsive layout
+- Professional doctor card styling
+
+------------------------
+
+3. In screenshot "338.png":
+Remove the current image.
+
+Replace it with:
+"dr khan.png"
+
+Maintain:
+- Existing card design
+- Responsive layout
+- Smooth hover effects
+- Professional appearance
+
+========================
+LAB / MACHINE IMAGE CLEANUP
+========================
+
+In screenshot "339.jpg" and other machine images:
+
+- Remove visible numbers/text shown on machines if possible
+- Keep images clean and professional
+- Maintain natural realistic look
+- Use subtle blur/overlay/clone techniques if needed
+
+========================
+UI REQUIREMENTS
+========================
+
+Keep:
+- Existing modern IVF clinic design
+- Mobile responsiveness
+- Tailwind CSS styling
+- Existing animations and gradients
+
+Improve:
+- Image alignment
+- Card consistency
+- Spacing
+- Gallery appearance
+- Mobile optimization
+
+Do NOT rebuild the website from scratch.
+Only update and enhance the existing website professionally.
