@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import logoImg from "@assets/Gemini_Generated_Image_690yr5690yr5690y_1779701975466.png";
-import drShabinaImg from "@assets/dr_shabina_khan_1779650535246.PNG";
-import drRehanImg from "@assets/dr_rehan_1779650535242.jpeg";
+import logoImg from "@assets/logo1_1779703574414.png";
+import drShabinaImg from "@assets/dr_shabina_khan_1779703319427.webp";
+import drRehanImg from "@assets/dr_rehan_1779703276874.jpeg";
 import reviewsImg from "@assets/reviews_1779296683360.jpeg";
 import clinicalImg from "@assets/oardefault_1779296683359.jpg";
 import ultrasoundImg from "@assets/ultrasound_1779650535242.jpeg";
@@ -382,7 +382,7 @@ function Doctor() {
       qual: "MBBS, Anesthesiologist",
       role: "Founder & Director",
       desc: "Specialist in patient safety and comfort during all reproductive procedures. Expert in conscious sedation and critical care management.",
-      badge: "Founder",
+      badge: "Anesthesiologist",
       badgeColor: "#7c3aed",
     },
     {
@@ -391,7 +391,7 @@ function Doctor() {
       qual: "MBBS, MS Obstetrics & Gynaecology",
       role: "Co-Founder & Chief Consultant",
       desc: "15+ years in reproductive medicine. Expert in IVF, IUI, ICSI, PCOS, and recurrent pregnancy loss. Hindustan Gaurav Samman Award recipient & FOGSI member.",
-      badge: "Co-Founder",
+      badge: "Obstetrics & Gynaecology",
       badgeColor: "#db2777",
     },
     {
@@ -819,8 +819,8 @@ function Gallery() {
     <section id="gallery" className="gallery-section">
       <div className="container">
         <div className="text-center mb-5 fade-in">
-          <div className="section-badge"><i className="fas fa-flask" /> Advanced Technology</div>
-          <h2 className="section-title">State-of-the-Art <span>IVF Equipment</span></h2>
+          <div className="section-badge"><i className="fas fa-flask" /> Our Laboratory</div>
+          <h2 className="section-title">State-of-the-Art <span>Laboratory</span></h2>
           <p className="section-desc">Our modern embryology lab and advanced fertility technology ensure the best possible outcomes for every patient.</p>
         </div>
         <div className="lab-tags fade-in" style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem", justifyContent: "center", marginBottom: "2rem" }}>
