@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import logoImg from "@assets/logo_1779699985492.jpeg";
+import logoImg from "@assets/Gemini_Generated_Image_690yr5690yr5690y_1779701975466.png";
 import drShabinaImg from "@assets/dr_shabina_khan_1779650535246.PNG";
 import drRehanImg from "@assets/dr_rehan_1779650535242.jpeg";
 import reviewsImg from "@assets/reviews_1779296683360.jpeg";
@@ -69,7 +69,7 @@ function Loader({ done }: { done: boolean }) {
   return (
     <div id="page-loader" className={done ? "hidden" : ""}>
       <div className="loader-heart">
-        <img src={logoImg} alt="Sunrise IVF Center" style={{ width: 120, height: 80, objectFit: "contain", borderRadius: "0.75rem" }} />
+        <img src={logoImg} alt="Sunrise IVF Center" style={{ width: 180, height: 180, objectFit: "contain" }} />
       </div>
       <div className="loader-text">Sunrise IVF Center</div>
       <div className="loader-sub">Shahjahanpur · Advanced Fertility Care</div>
@@ -105,7 +105,7 @@ function Navbar() {
       <nav className="navbar-custom" style={{ boxShadow: scrolled ? "0 4px 30px rgba(219,39,119,0.14)" : undefined }}>
         <div className="nav-container">
           <a className="navbar-brand-link" href="#home" onClick={close}>
-            <img src={logoImg} alt="Sunrise IVF Center Logo" style={{ height: 44, width: 70, objectFit: "cover", borderRadius: "0.4rem", flexShrink: 0 }} />
+            <img src={logoImg} alt="Sunrise IVF Center Logo" style={{ height: 50, width: 50, objectFit: "contain", flexShrink: 0 }} />
             <div>
               <span className="navbar-brand-text">Sunrise IVF Center</span>
               <span className="navbar-brand-sub">Shahjahanpur</span>
@@ -232,31 +232,57 @@ function Counters() {
   }, []);
 
   const stats = [
-    { target: 2000, suffix: "+", label: "Happy Families", icon: "fas fa-heart", color: "#db2777" },
-    { target: 500, suffix: "+", label: "IVF Cycles Done", icon: "fas fa-chart-line", color: "#7c3aed" },
-    { target: 15, suffix: "+", label: "Years of Excellence", icon: "fas fa-award", color: "#2563eb" },
-    { target: 5000, suffix: "+", label: "Consultations Done", icon: "fas fa-user-md", color: "#059669" },
-    { target: 24, suffix: "/7", label: "Patient Support", icon: "fas fa-headset", color: "#d97706" },
-    { target: 100, suffix: "%", label: "Transparent Pricing", icon: "fas fa-shield-alt", color: "#dc2626" },
+    { target: 2000, suffix: "+", label: "Happy Families", icon: "fas fa-heart", color: "#db2777", isText: false },
+    { target: 0, suffix: "HIGH", label: "Success Rate", icon: "fas fa-chart-line", color: "#7c3aed", isText: true },
+    { target: 15, suffix: "+", label: "Years of Excellence", icon: "fas fa-award", color: "#2563eb", isText: false },
+    { target: 5000, suffix: "+", label: "Consultations Done", icon: "fas fa-user-md", color: "#059669", isText: false },
+    { target: 24, suffix: "/7", label: "Patient Support", icon: "fas fa-headset", color: "#d97706", isText: false },
+    { target: 100, suffix: "%", label: "Transparent Pricing", icon: "fas fa-shield-alt", color: "#dc2626", isText: false },
   ];
 
   const c0 = useCountUp(stats[0].target, 2000, active);
-  const c1 = useCountUp(stats[1].target, 1800, active);
   const c2 = useCountUp(stats[2].target, 1500, active);
   const c3 = useCountUp(stats[3].target, 2200, active);
   const c4 = useCountUp(stats[4].target, 1200, active);
   const c5 = useCountUp(stats[5].target, 1600, active);
-  const counts = [c0, c1, c2, c3, c4, c5];
+  const counts = [c0, 0, c2, c3, c4, c5];
 
   return (
     <section className="counters-section" ref={ref}>
       <div className="counters-bg" />
       <div className="container pos-rel">
-        <div className="text-center mb-5 fade-in">
+        <div className="text-center mb-4 fade-in">
           <div className="section-badge section-badge-light"><i className="fas fa-star" /> Our Track Record</div>
           <h2 className="section-title" style={{ color: "white" }}>Numbers That <span style={{ WebkitTextFillColor: "transparent", background: "linear-gradient(135deg,#fce7f3,#e879f9)", WebkitBackgroundClip: "text", backgroundClip: "text" }}>Speak for Themselves</span></h2>
           <p className="section-desc" style={{ color: "rgba(255,255,255,0.8)" }}>Every number represents a life changed, a dream fulfilled, a family completed.</p>
         </div>
+
+        {/* Trust Indicators Card */}
+        <div className="fade-in" style={{ display: "flex", justifyContent: "center", marginBottom: "2.5rem" }}>
+          <div style={{
+            background: "white",
+            borderRadius: "1.25rem",
+            padding: "1.75rem 2.5rem",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.25)",
+            maxWidth: 420,
+            width: "100%",
+            textAlign: "center",
+          }}>
+            <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>☀️</div>
+            <div style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "1.1rem", color: "#1f2937", marginBottom: "1rem" }}>Trust Indicators</div>
+            {[
+              "ISO 9001:2015 Certified Clinic",
+              "FOGSI Member · Advanced Embryology Lab",
+              "15+ Years of Excellence in Fertility Care",
+            ].map((item) => (
+              <div key={item} style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.55rem", textAlign: "left" }}>
+                <i className="fas fa-check-circle" style={{ color: "#db2777", fontSize: "0.95rem", flexShrink: 0 }} />
+                <span style={{ fontSize: "0.875rem", color: "#374151", lineHeight: 1.45 }}>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="counters-grid fade-in">
           {stats.map((s, i) => (
             <div key={s.label} className="counter-card">
@@ -264,7 +290,7 @@ function Counters() {
                 <i className={s.icon} style={{ color: s.color }} />
               </div>
               <div className="counter-num">
-                {counts[i]}<span className="counter-suffix">{s.suffix}</span>
+                {s.isText ? <span>{s.suffix}</span> : <>{counts[i]}<span className="counter-suffix">{s.suffix}</span></>}
               </div>
               <div className="counter-label">{s.label}</div>
             </div>
@@ -326,20 +352,21 @@ function About() {
           </div>
         </div>
 
-        <div className="timings-grid mt-5 fade-in">
-          <div style={{ gridColumn: "1/-1", textAlign: "center", marginBottom: "1.5rem" }}>
-            <div className="section-badge"><i className="fas fa-clock" /> Clinic Timings</div>
-            <h3 className="section-title" style={{ fontSize: "1.75rem" }}>When We <span>Are Open</span></h3>
+        {/* Timing inline — shown as a compact banner below about content */}
+        <div className="fade-in mt-5" style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: "0.75rem",
+            background: "linear-gradient(135deg,#fce7f3,#ede9fe)",
+            border: "1px solid #fce7f3",
+            borderRadius: "3rem",
+            padding: "0.7rem 1.75rem",
+            fontSize: "0.9rem",
+            color: "#1f2937",
+          }}>
+            <i className="fas fa-clock" style={{ color: "#db2777" }} />
+            <span style={{ fontWeight: 600 }}>Open Every Day:</span>
+            <span style={{ color: "#db2777", fontWeight: 700 }}>10:00 AM – 6:00 PM</span>
           </div>
-          {[
-            { day: "Every Day", time: "10:00 AM – 6:00 PM", icon: "🗓️" },
-          ].map((t) => (
-            <div key={t.day} className="timing-card text-center">
-              <div style={{ fontSize: "1.75rem", marginBottom: "0.4rem" }}>{t.icon}</div>
-              <div style={{ fontWeight: 700, fontSize: "0.875rem", color: "#1f2937" }}>{t.day}</div>
-              <div style={{ fontSize: "0.8rem", color: "#db2777", fontWeight: 600, marginTop: "0.2rem" }}>{t.time}</div>
-            </div>
-          ))}
         </div>
       </div>
     </section>
@@ -375,15 +402,6 @@ function Doctor() {
       desc: "Highly skilled embryologist specialising in IVF, ICSI, embryo culture, vitrification, and preimplantation genetic testing in our state-of-the-art lab.",
       badge: "Embryology",
       badgeColor: "#059669",
-    },
-    {
-      img: reviewsImg,
-      name: "Team Photo",
-      qual: "",
-      role: "Our Dedicated Team",
-      desc: "Our passionate multidisciplinary team works together every day to bring hope and joy to families on their fertility journey.",
-      badge: "Team",
-      badgeColor: "#d97706",
     },
   ];
 
@@ -1021,7 +1039,7 @@ function Footer() {
         <div className="footer-grid">
           <div className="footer-brand-col">
             <div className="footer-brand-row">
-              <img src={logoImg} alt="Sunrise IVF Center" style={{ height: 42, width: 66, objectFit: "cover", borderRadius: "0.4rem", flexShrink: 0 }} />
+              <img src={logoImg} alt="Sunrise IVF Center" style={{ height: 52, width: 52, objectFit: "contain", flexShrink: 0 }} />
               <span className="footer-brand-name">Sunrise IVF Center</span>
             </div>
             <p className="footer-desc">Shahjahanpur's most trusted fertility centre — bringing hope, science, and compassion together for every family's journey to parenthood.</p>
