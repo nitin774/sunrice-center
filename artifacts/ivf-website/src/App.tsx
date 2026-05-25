@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import logoImg from "@assets/logo_1779699985492.jpeg";
 import drShabinaImg from "@assets/dr_shabina_khan_1779650535246.PNG";
 import drRehanImg from "@assets/dr_rehan_1779650535242.jpeg";
 import reviewsImg from "@assets/reviews_1779296683360.jpeg";
@@ -67,7 +68,9 @@ function useAjaxForm(formType: string) {
 function Loader({ done }: { done: boolean }) {
   return (
     <div id="page-loader" className={done ? "hidden" : ""}>
-      <div className="loader-heart">🌸</div>
+      <div className="loader-heart">
+        <img src={logoImg} alt="Sunrise IVF Center" style={{ width: 120, height: 80, objectFit: "contain", borderRadius: "0.75rem" }} />
+      </div>
       <div className="loader-text">Sunrise IVF Center</div>
       <div className="loader-sub">Shahjahanpur · Advanced Fertility Care</div>
     </div>
@@ -102,7 +105,7 @@ function Navbar() {
       <nav className="navbar-custom" style={{ boxShadow: scrolled ? "0 4px 30px rgba(219,39,119,0.14)" : undefined }}>
         <div className="nav-container">
           <a className="navbar-brand-link" href="#home" onClick={close}>
-            <span style={{ fontSize: "1.75rem", lineHeight: 1 }}>🌸</span>
+            <img src={logoImg} alt="Sunrise IVF Center Logo" style={{ height: 44, width: 70, objectFit: "cover", borderRadius: "0.4rem", flexShrink: 0 }} />
             <div>
               <span className="navbar-brand-text">Sunrise IVF Center</span>
               <span className="navbar-brand-sub">Shahjahanpur</span>
@@ -329,10 +332,7 @@ function About() {
             <h3 className="section-title" style={{ fontSize: "1.75rem" }}>When We <span>Are Open</span></h3>
           </div>
           {[
-            { day: "Mon – Fri", time: "8:00 AM – 8:00 PM", icon: "🗓️" },
-            { day: "Saturday", time: "9:00 AM – 6:00 PM", icon: "🗓️" },
-            { day: "Sunday", time: "10:00 AM – 2:00 PM", icon: "🗓️" },
-            { day: "Emergency", time: "24 Hours Available", icon: "🚨" },
+            { day: "Every Day", time: "10:00 AM – 6:00 PM", icon: "🗓️" },
           ].map((t) => (
             <div key={t.day} className="timing-card text-center">
               <div style={{ fontSize: "1.75rem", marginBottom: "0.4rem" }}>{t.icon}</div>
@@ -350,31 +350,40 @@ function About() {
 function Doctor() {
   const doctors = [
     {
-      img: drShabinaImg,
-      name: "Dr. Shabina Khan",
-      qual: "MBBS, MS Obstetrics & Gynaecology",
-      role: "Senior IVF Specialist & Director",
-      desc: "15+ years in reproductive medicine. Expert in IVF, IUI, ICSI, PCOS, and recurrent pregnancy loss. Hindustan Gaurav Samman Award recipient & FOGSI member.",
-      badge: "Director",
-      badgeColor: "#db2777",
-    },
-    {
       img: drRehanImg,
       name: "Dr. Rehan",
       qual: "MBBS, Anesthesiologist",
-      role: "Anesthesia & Critical Care Specialist",
+      role: "Founder & Director",
       desc: "Specialist in patient safety and comfort during all reproductive procedures. Expert in conscious sedation and critical care management.",
-      badge: "Anesthesiology",
+      badge: "Founder",
       badgeColor: "#7c3aed",
+    },
+    {
+      img: drShabinaImg,
+      name: "Dr. Shabina Khan",
+      qual: "MBBS, MS Obstetrics & Gynaecology",
+      role: "Co-Founder & Chief Consultant",
+      desc: "15+ years in reproductive medicine. Expert in IVF, IUI, ICSI, PCOS, and recurrent pregnancy loss. Hindustan Gaurav Samman Award recipient & FOGSI member.",
+      badge: "Co-Founder",
+      badgeColor: "#db2777",
     },
     {
       img: FEMALE_AVATAR,
       name: "Dr. Minal Sharma",
       qual: "Embryologist",
-      role: "Senior Embryology Expert",
+      role: "Head of Lab",
       desc: "Highly skilled embryologist specialising in IVF, ICSI, embryo culture, vitrification, and preimplantation genetic testing in our state-of-the-art lab.",
       badge: "Embryology",
       badgeColor: "#059669",
+    },
+    {
+      img: reviewsImg,
+      name: "Team Photo",
+      qual: "",
+      role: "Our Dedicated Team",
+      desc: "Our passionate multidisciplinary team works together every day to bring hope and joy to families on their fertility journey.",
+      badge: "Team",
+      badgeColor: "#d97706",
     },
   ];
 
@@ -383,7 +392,7 @@ function Doctor() {
       <div className="container">
         <div className="text-center mb-5 fade-in">
           <div className="section-badge"><i className="fas fa-user-md" /> Our Medical Team</div>
-          <h2 className="section-title">Meet Our <span>Expert Doctors</span></h2>
+          <h2 className="section-title">Our Doctors <span>&amp; Owners</span></h2>
           <p className="section-desc">A dedicated multidisciplinary team of specialists committed to your fertility journey with care and expertise.</p>
         </div>
 
@@ -647,14 +656,6 @@ function Appointment() {
 
 /* ──────────────────── Testimonials ──────────────────── */
 function Testimonials() {
-  const reviews = [
-    { name: "Priya Sharma", loc: "Shahjahanpur", avatar: "P", text: "After 3 years of trying, Sunrise IVF Center gave us our little miracle. Dr. Shabina Khan is not just a doctor – she's an angel. The entire team was so supportive throughout our IVF journey.", rating: 5 },
-    { name: "Rekha Gupta", loc: "Lucknow", avatar: "R", text: "The care and attention we received here was exceptional. Our IUI treatment was successful on the second attempt. The staff made us feel like family. Highly recommended!", rating: 5 },
-    { name: "Sushma Verma", loc: "Bareilly", avatar: "S", text: "We traveled from Bareilly because a friend recommended Dr. Shabina Khan. Worth every kilometre! Professional, compassionate, and results-driven. We now have twins!", rating: 5 },
-    { name: "Anjali Singh", loc: "Shahjahanpur", avatar: "A", text: "The clinic facilities are top-notch and the entire team from front desk to doctors is amazing. Dr. Khan explained everything clearly. Blessed to have found this centre.", rating: 5 },
-    { name: "Meena Agarwal", loc: "Kanpur", avatar: "M", text: "After failed attempts elsewhere, Sunrise IVF Center gave us renewed hope. Their personalised approach made all the difference. Our baby girl is proof of their expertise!", rating: 5 },
-    { name: "Kavita Rao", loc: "Hardoi", avatar: "K", text: "Excellent infrastructure, caring staff, and a doctor who truly listens. The transparency in treatment and pricing was refreshing. Our dream of becoming parents came true here.", rating: 5 },
-  ];
   return (
     <section id="testimonials" className="testimonials-section">
       <div className="container">
@@ -662,21 +663,6 @@ function Testimonials() {
           <div className="section-badge"><i className="fas fa-heart" /> Patient Stories</div>
           <h2 className="section-title">Families We've <span>Helped</span></h2>
           <p className="section-desc">Real stories of hope, perseverance, and the joy of parenthood from our beloved patients.</p>
-        </div>
-        <div className="services-grid mb-5">
-          {reviews.map((r) => (
-            <div key={r.name} className="testimonial-card fade-in">
-              <div className="stars">{"★".repeat(r.rating)}</div>
-              <p className="testimonial-text">"{r.text}"</p>
-              <div className="testimonial-author">
-                <div className="author-avatar">{r.avatar}</div>
-                <div>
-                  <div className="author-name">{r.name}</div>
-                  <div className="author-loc"><i className="fas fa-map-marker-alt me-1" />{r.loc}</div>
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
         <div className="clinic-review-row fade-in">
           <img src={reviewsImg} alt="Dr. Shabina Khan with a happy patient" className="clinic-review-img" />
@@ -804,12 +790,11 @@ function Gallery() {
   const [lightbox, setLightbox] = useState<{ img: string; title: string; sub: string } | null>(null);
 
   const items = [
-    { img: ultrasoundImg, title: "GE Versana Ultrasound System", sub: "Advanced Fertility Diagnostic Technology" },
-    { img: iuiWorkstationImg, title: "IUI Work Station", sub: "Precision IUI Preparation Unit" },
-    { img: machineImg, title: "HEPA Air Filtration System", sub: "ISO-Class Clean Room Equipment" },
-    { img: machineTwoImg, title: "Olympus Inverted Microscope", sub: "High-Resolution Embryology Scope" },
-    { img: machineThreeImg, title: "Embryology Laminar Flow Hood", sub: "Sterile Embryo Culture Station (Vardhman Medicare)" },
-    { img: UNSPLASH.lab, title: "IVF Laboratory", sub: "State-of-the-Art Embryology Lab Environment" },
+    { num: 3, img: ultrasoundImg, title: "Advanced Ultrasound Imaging", sub: "Advanced Fertility Diagnostic Technology" },
+    { num: 4, img: iuiWorkstationImg, title: "Swift I.U.I. Work Station", sub: "Precision IUI Preparation Unit" },
+    { num: 5, img: machineImg, title: "High-Capacity Air Filtration", sub: "ISO-Class Clean Room Equipment" },
+    { num: 6, img: machineTwoImg, title: "Digital Inverted Microscope (ICSI)", sub: "High-Resolution Embryology Scope" },
+    { num: 7, img: machineThreeImg, title: "Vardhman Medicare Lab Hood", sub: "Sterile Embryo Culture Station" },
   ];
 
   return (
@@ -829,7 +814,8 @@ function Gallery() {
         </div>
         <div className="gallery-grid">
           {items.map((item) => (
-            <div key={item.title} className="gallery-item fade-in" onClick={() => setLightbox(item)} style={{ cursor: "pointer" }}>
+            <div key={item.title} className="gallery-item fade-in" onClick={() => setLightbox(item)} style={{ cursor: "pointer", position: "relative" }}>
+              <div style={{ position: "absolute", top: "0.6rem", left: "0.6rem", zIndex: 2, background: "rgba(0,0,0,0.65)", color: "white", fontWeight: 700, fontSize: "0.85rem", width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "1.5px solid rgba(255,255,255,0.4)" }}>{item.num}</div>
               <img src={item.img} alt={item.title} className="gallery-img" loading="lazy" />
               <div className="gallery-overlay">
                 <div className="gallery-overlay-title">{item.title}</div>
@@ -898,7 +884,7 @@ function Staff() {
       <div className="container">
         <div className="text-center mb-5 fade-in">
           <div className="section-badge"><i className="fas fa-users" /> Our Team</div>
-          <h2 className="section-title">Meet Our <span>Caring Team</span></h2>
+          <h2 className="section-title">Dedicated <span>Staff</span></h2>
           <p className="section-desc">A dedicated team committed to providing exceptional fertility care and patient support.</p>
         </div>
         <div className="staff-grid">
@@ -1035,7 +1021,7 @@ function Footer() {
         <div className="footer-grid">
           <div className="footer-brand-col">
             <div className="footer-brand-row">
-              <span style={{ fontSize: "2rem" }}>🌸</span>
+              <img src={logoImg} alt="Sunrise IVF Center" style={{ height: 42, width: 66, objectFit: "cover", borderRadius: "0.4rem", flexShrink: 0 }} />
               <span className="footer-brand-name">Sunrise IVF Center</span>
             </div>
             <p className="footer-desc">Shahjahanpur's most trusted fertility centre — bringing hope, science, and compassion together for every family's journey to parenthood.</p>
@@ -1088,7 +1074,7 @@ function Footer() {
             </div>
             <div className="footer-contact-item">
               <i className="fas fa-clock" />
-              <span>Mon–Fri: 8AM–8PM | Sat: 9AM–6PM</span>
+              <span>Every Day: 10:00 AM – 6:00 PM</span>
             </div>
             <a href="#appointment" className="btn-primary-custom mt-3" style={{ fontSize: "0.875rem", padding: "0.7rem 1.25rem" }}>
               <i className="fas fa-calendar-check" /> Book Appointment
