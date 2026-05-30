@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import logoImg from "@assets/logo_sunrise_main.png";
 import drShabinaImg from "@assets/dr_shabina_khan_1779703319427.webp";
 import drRehanImg from "@assets/dr_rehan_1779703276874.jpeg";
@@ -113,7 +114,9 @@ function Navbar() {
 
   const close = () => setMenuOpen(false);
 
-  return (
+  const body = typeof document !== "undefined" ? document.body : null;
+  if (!body) return null;
+  return createPortal(
     <>
       <nav className="navbar-custom" style={{ boxShadow: scrolled ? "0 4px 30px rgba(219,39,119,0.14)" : undefined }}>
         <div className="nav-container">
@@ -153,7 +156,8 @@ function Navbar() {
         </div>
       </nav>
       {menuOpen && <div className="nav-overlay" onClick={close} />}
-    </>
+    </>,
+    document.body
   );
 }
 
@@ -1123,7 +1127,9 @@ function BackToTop() {
 
 /* ──────────────────── Mobile CTA Bar ──────────────────── */
 function MobileCTABar() {
-  return (
+  const body = typeof document !== "undefined" ? document.body : null;
+  if (!body) return null;
+  return createPortal(
     <div className="mobile-cta-bar">
       <a href={`tel:${PHONE}`} className="mobile-cta-call">
         <i className="fas fa-phone" /> Call Now
@@ -1131,7 +1137,8 @@ function MobileCTABar() {
       <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="mobile-cta-wa">
         <i className="fab fa-whatsapp" /> WhatsApp
       </a>
-    </div>
+    </div>,
+    document.body
   );
 }
 
