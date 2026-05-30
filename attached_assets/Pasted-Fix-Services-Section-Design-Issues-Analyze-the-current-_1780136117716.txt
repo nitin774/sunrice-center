@@ -1,0 +1,141 @@
+Fix Services Section Design Issues
+
+Analyze the current Services Section and make the following improvements to create a professional IVF hospital website appearance.
+
+1. Fix Image Cropping Issues
+
+The service images are currently being cropped and important content/text inside the images is cut off.
+
+Update the image styling so the entire image is visible.
+
+Replace:
+
+object-fit: cover;
+
+with:
+
+object-fit: contain;
+background: white;
+
+or redesign the image container so the full image is displayed without cropping.
+
+Requirements:
+
+No important text should be hidden.
+No image should be cut from top, bottom, left, or right.
+Entire poster/image must be visible.
+Maintain responsiveness on all devices.
+2. Fix Duplicate Titles
+
+Currently the images already contain titles such as:
+
+IVF Treatment
+IUI Treatment
+Fertility Consultation
+Pregnancy Care
+Infertility Diagnosis
+Women Health Care
+
+The card also displays the same title below the image.
+
+Remove the duplicate card title below each image and keep only:
+
+Image
+Description
+Book Consultation Button
+
+OR
+
+If keeping card titles, use clean medical images without embedded text.
+
+Choose the option that looks most professional.
+
+3. Improve Service Card Layout
+
+Make all service cards visually consistent.
+
+Requirements:
+
+border-radius: 20px;
+overflow: hidden;
+height: auto;
+
+Images should have:
+
+width: 100%;
+height: auto;
+display: block;
+
+Maintain equal spacing between all cards.
+
+4. Make Service Cards Look Like Premium Hospital Website
+
+Apply:
+
+Soft shadow
+Hover animation
+Smooth transitions
+Clean white background
+
+Example:
+
+box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+transition: all .3s ease;
+
+Hover:
+
+transform: translateY(-5px);
+5. Add Proper Services Section Heading
+
+Above the cards add:
+
+<h2>Our Fertility Services</h2>
+<p>
+Comprehensive fertility treatments and reproductive healthcare
+designed to support your journey to parenthood.
+</p>
+
+Center align the heading.
+
+6. Improve Mobile Responsiveness
+
+Desktop:
+
+3 cards per row
+
+Tablet:
+
+2 cards per row
+
+Mobile:
+
+1 card per row
+
+Ensure:
+
+No horizontal scrolling
+No cropped images
+Proper spacing
+7. Gallery Recommendation
+
+The poster-style images contain detailed information and are better suited for a Gallery section.
+
+If necessary:
+
+Keep service cards clean and simple.
+Move poster-style images to the Gallery section.
+Allow users to click and view full-size posters in a lightbox/modal.
+8. Final Requirement
+
+Do not modify:
+
+Navbar
+Footer
+Appointment Booking
+Contact Forms
+WhatsApp Button
+Existing Color Theme
+
+Only improve the Services Section so it looks professional, clean, modern, and similar to premium IVF hospital websites.
+
+Generate production-ready HTML, CSS, and JavaScript changes directly in the existing codebase

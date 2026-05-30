@@ -414,7 +414,6 @@ function Services() {
                 <div className="service-img-icon">{s.icon}</div>
               </div>
               <div className="service-body">
-                <h3 className="service-title">{s.title}</h3>
                 <p className="service-desc-text">{s.desc}</p>
                 <a href="#appointment" className="service-link">
                   Book Consultation <i className="fas fa-arrow-right" />
