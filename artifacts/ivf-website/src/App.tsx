@@ -596,9 +596,9 @@ function Appointment() {
                     <label className="form-label-custom"><i className="fas fa-clock me-1 pink" /> Preferred Time</label>
                     <select name="preferredTime" className="form-control-custom">
                       <option value="">Select a time</option>
-                      <option>Morning (8AM – 12PM)</option>
+                      <option>Morning (10AM – 12PM)</option>
                       <option>Afternoon (12PM – 4PM)</option>
-                      <option>Evening (4PM – 8PM)</option>
+                      <option>Evening (4PM – 6PM)</option>
                     </select>
                   </div>
                   <div className="form-group form-full">
@@ -844,7 +844,7 @@ function Staff() {
   const staff = [
     { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#ede9fe,#dbeafe)", name: "Dr. Urvashi Yadav" },
     { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#dbeafe,#d1fae5)", name: "Dr. Talat Naaz" },
-    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#d1fae5,#fef9c3)", name: "Anita Verma" },
+    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#d1fae5,#fef9c3)", name: "Nurse Anita Verma" },
   ];
   return (
     <section id="staff" className="staff-section">
