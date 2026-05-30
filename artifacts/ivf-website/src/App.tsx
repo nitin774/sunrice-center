@@ -323,8 +323,10 @@ function About() {
       <div className="container">
         <div className="two-col-grid">
           <div className="fade-in-left">
-            <div className="about-img-wrapper">
-              <img src={drShabinaNewImg} alt="Dr. Shabina Khan consulting a patient" className="about-main-img" />
+            <div className="about-img-container">
+              <div className="about-img-wrapper">
+                <img src={drShabinaNewImg} alt="Dr. Shabina Khan consulting a patient" className="about-main-img" />
+              </div>
               <div className="about-img-badge">
                 <i className="fas fa-heart" style={{ color: "#db2777", fontSize: "1.25rem" }} />
                 <div>
@@ -1124,6 +1126,20 @@ function BackToTop() {
   );
 }
 
+/* ──────────────────── Mobile CTA Bar ──────────────────── */
+function MobileCTABar() {
+  return (
+    <div className="mobile-cta-bar">
+      <a href={`tel:${PHONE}`} className="mobile-cta-call">
+        <i className="fas fa-phone" /> Call Now
+      </a>
+      <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="mobile-cta-wa">
+        <i className="fab fa-whatsapp" /> WhatsApp
+      </a>
+    </div>
+  );
+}
+
 /* ──────────────────── Root ──────────────────── */
 export default function App() {
   const [loaderDone, setLoaderDone] = useState(false);
@@ -1162,6 +1178,7 @@ export default function App() {
       <Footer />
       <WhatsAppPopup />
       <BackToTop />
+      <MobileCTABar />
     </>
   );
 }
