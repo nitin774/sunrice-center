@@ -12,6 +12,20 @@ import iuiWorkstationImg from "@assets/I_U_I_work_station_1779650535243.jpeg";
 import machineImg from "@assets/mechine_1779650535243.jpeg";
 import machineTwoImg from "@assets/mechine_two_1779650535244.jpeg";
 import machineThreeImg from "@assets/mechine_three_1779650535244.jpeg";
+import ivfPicImg from "@assets/ivf_pic_1780134687573.png";
+import iuiTreatmentImg from "@assets/IUI_Treatment_1780134687575.jpeg";
+import fertilityConsultImg from "@assets/Fertility_Consultation_1780134687575.jpeg";
+import pregnancyCareImg from "@assets/Pregnancy_Care_1780134687574.jpeg";
+import infertilityDiagImg from "@assets/Infertility_Diagnosis_1780134687574.jpeg";
+import womenHealthImg from "@assets/women_health_care_1780134687573.jpeg";
+import clinicPhoto1 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.51_1780135127340.jpeg";
+import clinicPhoto2 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.49_1780135127340.jpeg";
+import clinicPhoto3 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.47_1780135127341.jpeg";
+import clinicPhoto4 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.47_(1)_1780135127341.jpeg";
+import clinicPhoto5 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.46_1780135127342.jpeg";
+import clinicPhoto6 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.45_1780135127342.jpeg";
+import clinicPhoto7 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.42_1780135127343.jpeg";
+import clinicPhoto8 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.40_1780135127343.jpeg";
 
 const WA_NUMBER = "918279612861";
 const WA_URL = `https://wa.me/${WA_NUMBER}?text=Hello%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20Sunrise%20IVF%20Center.`;
@@ -94,7 +108,6 @@ function Navbar() {
   const links = [
     { label: "Home", href: "#home" },
     { label: "About", href: "#about" },
-    { label: "Doctors", href: "#doctor" },
     { label: "Services", href: "#services" },
     { label: "Reviews", href: "#testimonials" },
     { label: "FAQ", href: "#faq" },
@@ -375,141 +388,15 @@ function About() {
   );
 }
 
-/* ──────────────────── Doctor ──────────────────── */
-function Doctor() {
-  const doctors = [
-    {
-      img: drRehanImg,
-      name: "Dr. Rehan",
-      qual: "MBBS, Anesthesiologist",
-      role: "Founder & Director",
-      desc: "Specialist in patient safety and comfort during all reproductive procedures. Expert in conscious sedation and critical care management.",
-      badge: "Anesthesiologist",
-      badgeColor: "#7c3aed",
-    },
-    {
-      img: drShabinaImg,
-      name: "Dr. Shabina Khan",
-      qual: "MBBS, MS Obstetrics & Gynaecology",
-      role: "Co-Founder & Chief Consultant",
-      desc: "15+ years in reproductive medicine. Expert in IVF, IUI, ICSI, PCOS, and recurrent pregnancy loss. Hindustan Gaurav Samman Award recipient & FOGSI member.",
-      badge: "Obstetrics & Gynaecology",
-      badgeColor: "#db2777",
-    },
-    {
-      img: FEMALE_AVATAR,
-      name: "Dr. Minal Sharma",
-      qual: "Embryologist",
-      role: "Head of Lab",
-      desc: "Highly skilled embryologist specialising in IVF, ICSI, embryo culture, vitrification, and preimplantation genetic testing in our state-of-the-art lab.",
-      badge: "Embryology",
-      badgeColor: "#059669",
-    },
-  ];
-
-  return (
-    <section id="doctor" className="doctor-section">
-      <div className="container">
-        <div className="text-center mb-5 fade-in">
-          <div className="section-badge"><i className="fas fa-user-md" /> Our Medical Team</div>
-          <h2 className="section-title">Our Doctors <span>&amp; Owners</span></h2>
-          <p className="section-desc">A dedicated multidisciplinary team of specialists committed to your fertility journey with care and expertise.</p>
-        </div>
-
-        <div className="doctors-team-grid">
-          {doctors.map((doc) => (
-            <div key={doc.name} className="doctor-team-card fade-in">
-              <div className="doctor-team-img-wrap">
-                <img src={doc.img} alt={doc.name} className="doctor-team-img" loading="lazy" />
-                <div className="doctor-team-badge" style={{ background: doc.badgeColor }}>
-                  {doc.badge}
-                </div>
-              </div>
-              <div className="doctor-team-body">
-                <h3 className="doctor-team-name">{doc.name}</h3>
-                <div className="doctor-team-qual">{doc.qual}</div>
-                <div className="doctor-team-role">{doc.role}</div>
-                <p className="doctor-team-desc">{doc.desc}</p>
-                <div className="btn-row" style={{ gap: "0.5rem", marginTop: "1rem" }}>
-                  <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="btn-whatsapp" style={{ fontSize: "0.8rem", padding: "0.55rem 1rem" }}>
-                    <i className="fab fa-whatsapp" /> Consult
-                  </a>
-                  <a href="#appointment" className="btn-outline-pink" style={{ fontSize: "0.8rem", padding: "0.55rem 1rem" }}>
-                    <i className="fas fa-calendar" /> Book
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Dr. Shabina Khan — Detailed Featured Profile */}
-        <div className="doctor-featured-profile fade-in">
-          <div className="two-col-grid" style={{ gap: "2.5rem" }}>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
-              <img
-                src={drShabinaImg}
-                alt="Dr. Shabina Khan – IVF Specialist"
-                style={{
-                  width: "100%", maxWidth: 300, borderRadius: "1.25rem",
-                  objectFit: "cover", objectPosition: "center top",
-                  aspectRatio: "3/4",
-                  boxShadow: "0 12px 40px rgba(219,39,119,0.22)",
-                }}
-              />
-              <div style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: "var(--font-heading)", fontSize: "1.25rem", fontWeight: 700, color: "#1f2937" }}>Dr. Shabina Khan</div>
-                <div style={{ fontSize: "0.85rem", color: "#db2777", fontWeight: 600, marginTop: "0.2rem" }}>Senior IVF Specialist &amp; Director</div>
-                <div style={{ fontSize: "0.775rem", color: "#6b7280", marginTop: "0.25rem" }}>Hindustan Gaurav Samman Award Recipient</div>
-              </div>
-            </div>
-            <div>
-              <div className="section-badge"><i className="fas fa-star" /> Director's Profile</div>
-              <h3 className="section-title" style={{ fontSize: "1.75rem" }}>15+ Years of <span>Excellence</span></h3>
-              <p className="body-text mb-4">
-                Dr. Shabina Khan is one of Uttar Pradesh's most respected fertility specialists. With over 15 years in reproductive medicine, she has helped thousands of couples achieve parenthood through personalised, evidence-based fertility treatments.
-              </p>
-              {[
-                { icon: "fas fa-graduation-cap", label: "Qualification", value: "MBBS, MS (Obstetrics & Gynaecology), Fellowship in Reproductive Medicine" },
-                { icon: "fas fa-briefcase-medical", label: "Experience", value: "15+ Years in Fertility, IVF & Reproductive Medicine" },
-                { icon: "fas fa-microscope", label: "Specialisation", value: "IVF, IUI, ICSI, Egg Freezing, PCOS, Recurrent Pregnancy Loss" },
-                { icon: "fas fa-hospital", label: "Training", value: "Advanced IVF Training – National & International Institutes" },
-                { icon: "fas fa-award", label: "Recognition", value: "Hindustan Gaurav Samman Award · FOGSI Member" },
-                { icon: "fas fa-phone", label: "Contact", value: `${PHONE} / ${PHONE2}` },
-              ].map((c) => (
-                <div key={c.label} className="credential-item">
-                  <div className="credential-icon"><i className={c.icon} /></div>
-                  <div>
-                    <div className="credential-label">{c.label}</div>
-                    <div style={{ fontSize: "0.875rem", color: "#1f2937" }}>{c.value}</div>
-                  </div>
-                </div>
-              ))}
-              <div className="btn-row mt-4">
-                <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="btn-whatsapp">
-                  <i className="fab fa-whatsapp" /> WhatsApp Consultation
-                </a>
-                <a href={`tel:${PHONE}`} className="btn-outline-pink">
-                  <i className="fas fa-phone" /> Call Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ──────────────────── Services ──────────────────── */
 function Services() {
   const services = [
-    { img: UNSPLASH.ivf, title: "IVF Treatment", desc: "In-Vitro Fertilisation using the latest reproductive technologies with excellent clinical outcomes.", icon: "🧬" },
-    { img: UNSPLASH.iui, title: "IUI Treatment", desc: "Intrauterine Insemination — a minimally invasive procedure ideal for couples with mild infertility.", icon: "💉" },
-    { img: UNSPLASH.fertility, title: "Fertility Consultation", desc: "Comprehensive evaluation of both partners to diagnose infertility and create a personalised plan.", icon: "🤝" },
-    { img: UNSPLASH.pregnancy, title: "Pregnancy Care", desc: "Complete antenatal care and high-risk pregnancy management for a safe journey.", icon: "🤰" },
-    { img: UNSPLASH.lab, title: "Infertility Diagnosis", desc: "Advanced diagnostics including semen analysis, hormonal profiling, HSG, and genetic screening.", icon: "🔬" },
-    { img: UNSPLASH.womens, title: "Women Health Care", desc: "Specialised care for endometriosis, PCOS, uterine fibroids, ovarian cysts, and more.", icon: "🩺" },
+    { img: ivfPicImg, title: "IVF Treatment", desc: "In-Vitro Fertilisation using the latest reproductive technologies with excellent clinical outcomes.", icon: "🧬" },
+    { img: iuiTreatmentImg, title: "IUI Treatment", desc: "Intrauterine Insemination — a minimally invasive procedure ideal for couples with mild infertility.", icon: "💉" },
+    { img: fertilityConsultImg, title: "Fertility Consultation", desc: "Comprehensive evaluation of both partners to diagnose infertility and create a personalised plan.", icon: "🤝" },
+    { img: pregnancyCareImg, title: "Pregnancy Care", desc: "Complete antenatal care and high-risk pregnancy management for a safe journey.", icon: "🤰" },
+    { img: infertilityDiagImg, title: "Infertility Diagnosis", desc: "Advanced diagnostics including semen analysis, hormonal profiling, HSG, and genetic screening.", icon: "🔬" },
+    { img: womenHealthImg, title: "Women Health Care", desc: "Specialised care for endometriosis, PCOS, uterine fibroids, ovarian cysts, and more.", icon: "🩺" },
   ];
   return (
     <section id="services" className="services-section">
@@ -537,6 +424,63 @@ function Services() {
           ))}
         </div>
       </div>
+    </section>
+  );
+}
+
+/* ──────────────────── Clinic Photo Gallery ──────────────────── */
+function ClinicGallery() {
+  const [lightbox, setLightbox] = useState<{ img: string; title: string } | null>(null);
+  const photos = [
+    { img: clinicPhoto1, title: "Reception" },
+    { img: clinicPhoto2, title: "Pharmacy" },
+    { img: clinicPhoto3, title: "Waiting Area" },
+    { img: clinicPhoto4, title: "Consultation Room" },
+    { img: clinicPhoto5, title: "Clinic Exterior" },
+    { img: clinicPhoto6, title: "Corridor" },
+    { img: clinicPhoto7, title: "Doctor's Room" },
+    { img: clinicPhoto8, title: "Doctor's Cabin Entrance" },
+  ];
+  return (
+    <section id="clinic-gallery" className="gallery-section" style={{ background: "#fdf8ff" }}>
+      <div className="container">
+        <div className="text-center mb-5 fade-in">
+          <div className="section-badge"><i className="fas fa-images" /> Our Clinic</div>
+          <h2 className="section-title">Inside <span>Sunrise IVF Centre</span></h2>
+          <p className="section-desc">A welcoming, modern environment designed with your comfort and care in mind.</p>
+        </div>
+        <div className="gallery-grid">
+          {photos.map((p) => (
+            <div key={p.title} className="gallery-item fade-in" onClick={() => setLightbox(p)} style={{ cursor: "pointer" }}>
+              <img src={p.img} alt={p.title} className="gallery-img" loading="lazy" />
+              <div className="gallery-overlay">
+                <div className="gallery-overlay-title">{p.title}</div>
+                <div style={{ marginTop: "0.4rem", fontSize: "0.75rem", color: "rgba(255,255,255,0.75)" }}>
+                  <i className="fas fa-search-plus me-1" /> Click to enlarge
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      {lightbox && (
+        <div
+          onClick={() => setLightbox(null)}
+          style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(0,0,0,0.90)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem", backdropFilter: "blur(4px)" }}
+        >
+          <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", maxWidth: 720, width: "100%", borderRadius: "1rem", overflow: "hidden" }}>
+            <img src={lightbox.img} alt={lightbox.title} style={{ width: "100%", maxHeight: "80vh", objectFit: "contain", display: "block", background: "#0a0a0a" }} />
+            <div style={{ padding: "1rem 1.5rem", background: "rgba(0,0,0,0.7)" }}>
+              <div style={{ fontWeight: 700, color: "white", fontSize: "1.05rem" }}>{lightbox.title}</div>
+            </div>
+            <button
+              onClick={() => setLightbox(null)}
+              aria-label="Close lightbox"
+              style={{ position: "absolute", top: "1rem", right: "1rem", background: "rgba(0,0,0,0.6)", border: "none", color: "white", width: 36, height: 36, borderRadius: "50%", fontSize: "1rem", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+            >✕</button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
@@ -812,8 +756,7 @@ function Gallery() {
   const items = [
     { num: 3, img: ultrasoundImg, title: "Advanced Ultrasound Imaging", sub: "Advanced Fertility Diagnostic Technology" },
     { num: 4, img: iuiWorkstationImg, title: "Swift I.U.I. Work Station", sub: "Precision IUI Preparation Unit" },
-    { num: 5, img: machineImg, title: "High-Capacity Air Filtration", sub: "ISO-Class Clean Room Equipment" },
-    { num: 6, img: machineTwoImg, title: "Digital Inverted Microscope (ICSI)", sub: "High-Resolution Embryology Scope" },
+    { num: 5, img: machineTwoImg, title: "Digital Inverted Microscope (ICSI)", sub: "High-Resolution Embryology Scope" },
     { num: 7, img: machineThreeImg, title: "Vardhman Medicare Lab Hood", sub: "Sterile Embryo Culture Station" },
   ];
 
@@ -894,15 +837,16 @@ function Gallery() {
 /* ──────────────────── Staff ──────────────────── */
 function Staff() {
   const staff = [
-    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#fce7f3,#ede9fe)", name: "Dr. Eram Warsi", role: "BAMS, DGO", desc: "Specialist in Gynaecology and Obstetrics with expertise in women's health and comprehensive fertility support." },
-    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#ede9fe,#dbeafe)", name: "Dr. Urvashi Yadav", role: "Medical Officer", desc: "Dedicated to patient care and clinical support across all fertility treatment procedures at our centre." },
-    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#dbeafe,#d1fae5)", name: "Dr. Talat Naaz", role: "Medical Officer", desc: "Compassionate care provider ensuring every patient receives personalised attention throughout their treatment journey." },
+    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#fce7f3,#ede9fe)", name: "Dr. Eram Warsi", role: "BAMS, DGO" },
+    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#ede9fe,#dbeafe)", name: "Dr. Urvashi Yadav", role: "Medical Officer" },
+    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#dbeafe,#d1fae5)", name: "Dr. Talat Naaz", role: "Medical Officer" },
+    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#d1fae5,#fef9c3)", name: "Anita Verma", role: "Nursing Staff" },
   ];
   return (
     <section id="staff" className="staff-section">
       <div className="container">
         <div className="text-center mb-5 fade-in">
-          <div className="section-badge"><i className="fas fa-users" /> Our Team</div>
+          <div className="section-badge"><i className="fas fa-users" /> Dedicated Staff</div>
           <h2 className="section-title">Dedicated <span>Staff</span></h2>
           <p className="section-desc">A dedicated team committed to providing exceptional fertility care and patient support.</p>
         </div>
@@ -912,7 +856,6 @@ function Staff() {
               <div className="staff-avatar" style={{ background: s.bg }}>{s.icon}</div>
               <div className="staff-name">{s.name}</div>
               <div className="staff-role">{s.role}</div>
-              <p className="staff-desc">{s.desc}</p>
             </div>
           ))}
         </div>
@@ -1062,7 +1005,7 @@ function Footer() {
 
           <div className="footer-links-col">
             <div className="footer-heading">Quick Links</div>
-            {[["Home","#home"],["About","#about"],["Doctors","#doctor"],["Services","#services"],["Reviews","#testimonials"],["FAQ","#faq"],["Contact","#contact"]].map(([l,h]) => (
+            {[["Home","#home"],["About","#about"],["Services","#services"],["Reviews","#testimonials"],["FAQ","#faq"],["Contact","#contact"]].map(([l,h]) => (
               <a key={l} href={h} className="footer-link"><i className="fas fa-chevron-right footer-link-arrow" />{l}</a>
             ))}
           </div>
@@ -1206,8 +1149,8 @@ export default function App() {
       <Hero />
       <Counters />
       <About />
-      <Doctor />
       <Services />
+      <ClinicGallery />
       <Appointment />
       <Testimonials />
       <LeaveReview />

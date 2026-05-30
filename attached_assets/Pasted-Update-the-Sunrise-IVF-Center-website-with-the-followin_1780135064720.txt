@@ -1,0 +1,83 @@
+Update the Sunrise IVF Center website with the following exact changes:
+
+1. Doctors Section (Screenshot 350.jpg)
+Completely remove:
+"Our Medical Team"
+"Our Doctors & Owners"
+The doctor cards should start directly without these headings.
+2. Services Section (Screenshot 351.jpg)
+
+Replace all existing service images with the provided images:
+
+Service Card	New Image
+IVF Treatment	ivf pic.png
+IUI Treatment	IUI Treatment.jpeg
+Fertility Consultation	Fertility Consultation.jpeg
+Pregnancy Care	Pregnancy Care.jpeg
+Infertility Diagnosis	Infertility Diagnosis.jpeg
+Women Health Care	Women Health Care.jpeg
+
+Requirements:
+
+Keep card layout, design, hover effects, buttons, spacing and responsiveness unchanged.
+Only replace the images.
+Images should fully cover the card image area using object-fit: cover.
+Maintain consistent image height for all service cards.
+3. Team Section (Screenshot 353.png)
+
+Change heading:
+
+Current:
+
+Our Team
+
+Replace with:
+
+Dedicated Staff
+
+Add a new staff card:
+
+Name: Anita Verma
+
+Designation: Nursing Staff
+
+Use the same card design, styling, spacing and responsiveness as existing staff cards.
+
+Remove the following descriptions completely:
+
+Remove from Dr. Dr. Eram Warsi card:
+
+Specialist in Gynaecology and Obstetrics with expertise in women's health and comprehensive fertility support.
+
+Remove from nursing/support staff card:
+
+Dedicated to patient care and clinical support across all fertility treatment procedures at our centre.
+
+Remove from another support staff card:
+
+Compassionate care provider ensuring every patient receives personalised attention throughout their treatment journey.
+
+Do not replace these descriptions with any new text. Simply remove them.
+
+4. Gallery / Facilities Section (Screenshot 352.jpg)
+
+Remove the 3rd machine image/card completely.
+
+Requirements:
+
+Delete only the third machine image.
+Remaining facility cards/images should automatically realign.
+Preserve grid layout and responsiveness.
+No empty gaps should remain.
+5. General Requirements
+Do not modify colors.
+Do not modify typography.
+Do not modify navbar.
+Do not modify footer.
+Do not modify appointment booking functionality.
+Do not modify WhatsApp integration.
+Maintain full mobile responsiveness.
+Maintain existing animations and hover effects.
+Ensure clean and production-ready code.
+
+Apply all changes directly to the existing codebase without redesigning any section.
