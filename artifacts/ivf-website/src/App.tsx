@@ -22,7 +22,7 @@ import clinicPhoto1 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.51_17801351
 import clinicPhoto3 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.47_1780135127341.jpeg";
 import clinicPhoto7 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.42_1780135127343.jpeg";
 import clinicPhoto8 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.40_1780135127343.jpeg";
-import clinicPhotoNew from "@assets/WhatsApp_Image_2026-05-30_at_17.20.27_1780147800758.jpeg";
+import clinicPhotoNew from "@assets/WhatsApp_Image_2026-05-30_at_17.20.27_1780148475017.jpeg";
 
 const WA_NUMBER = "918279612861";
 const WA_URL = `https://wa.me/${WA_NUMBER}?text=Hello%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20Sunrise%20IVF%20Center.`;
