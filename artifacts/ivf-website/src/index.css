@@ -286,8 +286,8 @@ a { text-decoration: none; }
 .staff-card { background: white; border-radius: 1.5rem; padding: 1.75rem 1.25rem; text-align: center; border: 1px solid var(--gray-100); transition: all 0.3s ease; }
 .staff-card:hover { transform: translateY(-6px); box-shadow: 0 15px 40px rgba(219,39,119,0.12); border-color: rgba(244,114,182,0.3); }
 .staff-avatar { width: 5rem; height: 5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem; }
-.staff-name { font-family: var(--font-heading); font-size: 1rem; font-weight: 700; color: var(--gray-800); margin-bottom: 0.25rem; }
-.staff-role { font-size: 0.8rem; font-weight: 600; color: var(--pink-dark); margin-bottom: 0.5rem; }
+.staff-name { font-family: var(--font-heading); font-size: 1rem; font-weight: 700; color: var(--gray-800); margin-bottom: 0.2rem; }
+.staff-role { font-size: 0.72rem; font-weight: 700; color: #db2777; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
 .staff-desc { font-size: 0.8rem; color: var(--gray-600); line-height: 1.6; }
 
 /* ── Contact ── */
@@ -482,6 +482,20 @@ a { text-decoration: none; }
   .float-whatsapp { width: 3rem; height: 3rem; font-size: 1.35rem; bottom: 5.5rem; }
   .back-to-top { width: 3rem; height: 3rem; font-size: 1rem; bottom: 9.25rem; }
   .wa-popup { width: calc(100vw - 2rem); right: 1rem; bottom: 9.5rem; }
+
+  /* Reinforce fixed positioning for iOS Safari */
+  .navbar-custom {
+    position: fixed !important;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+  }
+  .mobile-cta-bar {
+    position: fixed !important;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+  }
 
   /* Section title + badge */
   .section-title { font-size: 1.35rem; }

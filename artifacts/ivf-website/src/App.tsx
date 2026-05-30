@@ -19,13 +19,10 @@ import pregnancyCareImg from "@assets/Pregnancy_Care_1780134687574.jpeg";
 import infertilityDiagImg from "@assets/Infertility_Diagnosis_1780134687574.jpeg";
 import womenHealthImg from "@assets/women_health_care_1780134687573.jpeg";
 import clinicPhoto1 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.51_1780135127340.jpeg";
-import clinicPhoto2 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.49_1780135127340.jpeg";
 import clinicPhoto3 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.47_1780135127341.jpeg";
-import clinicPhoto4 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.47_(1)_1780135127341.jpeg";
-import clinicPhoto5 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.46_1780135127342.jpeg";
-import clinicPhoto6 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.45_1780135127342.jpeg";
 import clinicPhoto7 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.42_1780135127343.jpeg";
 import clinicPhoto8 from "@assets/WhatsApp_Image_2026-05-30_at_15.05.40_1780135127343.jpeg";
+import clinicPhotoNew from "@assets/WhatsApp_Image_2026-05-30_at_17.20.27_1780147800758.jpeg";
 
 const WA_NUMBER = "918279612861";
 const WA_URL = `https://wa.me/${WA_NUMBER}?text=Hello%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20Sunrise%20IVF%20Center.`;
@@ -433,12 +430,9 @@ function Services() {
 function ClinicGallery() {
   const [lightbox, setLightbox] = useState<{ img: string; title: string } | null>(null);
   const photos = [
+    { img: clinicPhotoNew, title: "Clinic Exterior" },
     { img: clinicPhoto1, title: "Reception" },
-    { img: clinicPhoto2, title: "Pharmacy" },
     { img: clinicPhoto3, title: "Waiting Area" },
-    { img: clinicPhoto4, title: "Consultation Room" },
-    { img: clinicPhoto5, title: "Clinic Exterior" },
-    { img: clinicPhoto6, title: "Corridor" },
     { img: clinicPhoto7, title: "Doctor's Room" },
     { img: clinicPhoto8, title: "Doctor's Cabin Entrance" },
   ];
@@ -844,7 +838,7 @@ function Staff() {
   const staff = [
     { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#ede9fe,#dbeafe)", name: "Dr. Urvashi Yadav" },
     { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#dbeafe,#d1fae5)", name: "Dr. Talat Naaz" },
-    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#d1fae5,#fef9c3)", name: "Nurse Anita Verma" },
+    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#d1fae5,#fef9c3)", name: "Anita Verma", role: "Nursing Officer" },
   ];
   return (
     <section id="staff" className="staff-section">
@@ -859,6 +853,7 @@ function Staff() {
             <div key={s.name} className="staff-card fade-in">
               <div className="staff-avatar" style={{ background: s.bg }}>{s.icon}</div>
               <div className="staff-name">{s.name}</div>
+              {"role" in s && s.role && <div className="staff-role">{s.role}</div>}
             </div>
           ))}
         </div>
