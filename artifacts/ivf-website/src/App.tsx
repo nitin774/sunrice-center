@@ -836,10 +836,9 @@ function Gallery() {
 /* ──────────────────── Staff ──────────────────── */
 function Staff() {
   const staff = [
-    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#fce7f3,#ede9fe)", name: "Dr. Eram Warsi", role: "BAMS, DGO" },
-    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#ede9fe,#dbeafe)", name: "Dr. Urvashi Yadav", role: "Medical Officer" },
-    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#dbeafe,#d1fae5)", name: "Dr. Talat Naaz", role: "Medical Officer" },
-    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#d1fae5,#fef9c3)", name: "Anita Verma", role: "Nursing Staff" },
+    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#ede9fe,#dbeafe)", name: "Dr. Urvashi Yadav" },
+    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#dbeafe,#d1fae5)", name: "Dr. Talat Naaz" },
+    { icon: "👩‍⚕️", bg: "linear-gradient(135deg,#d1fae5,#fef9c3)", name: "Anita Verma" },
   ];
   return (
     <section id="staff" className="staff-section">
@@ -854,7 +853,6 @@ function Staff() {
             <div key={s.name} className="staff-card fade-in">
               <div className="staff-avatar" style={{ background: s.bg }}>{s.icon}</div>
               <div className="staff-name">{s.name}</div>
-              <div className="staff-role">{s.role}</div>
             </div>
           ))}
         </div>
