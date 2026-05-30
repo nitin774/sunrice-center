@@ -530,7 +530,9 @@ function Appointment() {
 
         <div className="appt-grid">
           <div className="appt-info-panel fade-in-left">
-            <img src={drKhanImg} alt="Dr. Shabina Khan with patient" className="appt-info-img" />
+            <div className="appt-img-wrap">
+              <img src={drKhanImg} alt="Dr. Shabina Khan with patient" className="appt-info-img" />
+            </div>
             <h4 className="appt-info-heading">Why Book With Us?</h4>
             {[
               "Free initial fertility consultation",
@@ -628,7 +630,9 @@ function Testimonials() {
           <p className="section-desc">Real stories of hope, perseverance, and the joy of parenthood from our beloved patients.</p>
         </div>
         <div className="clinic-review-row fade-in">
-          <img src={drKhanImg} alt="Dr. Shabina Khan with a patient" className="clinic-review-img" />
+          <div className="review-img-wrap">
+            <img src={drKhanImg} alt="Dr. Shabina Khan with a patient" className="clinic-review-img" />
+          </div>
           <div className="clinic-review-caption">
             <i className="fas fa-quote-left" style={{ color: "#db2777", fontSize: "1.5rem", display: "block", marginBottom: "0.75rem" }} />
             <p style={{ fontFamily: "var(--font-heading)", fontSize: "1.05rem", color: "#1f2937", fontStyle: "italic", lineHeight: 1.65 }}>
